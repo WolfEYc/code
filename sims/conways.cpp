@@ -150,6 +150,7 @@ void render(){
 
     }
 }
+//b
 
 void handlePlace(Vector2i clickpos){
     //Vector2i worldpos = clickpos-windowOffset;
