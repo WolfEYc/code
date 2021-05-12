@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1
+Name=butterslide
+Comment=runs butterslide
+Exec=/usr/bin/butterslide.exe
+Icon=/usr/bin/butter.png
+Terminal=false
+Type=Application
+Categories=Application;

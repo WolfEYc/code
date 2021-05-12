@@ -1,0 +1,335 @@
+-- WARNING: All output lines starting with a double dash are there to show you
+-- how the simulation proceeds and are NEITHER REQUIRED NOR RECOMMENDED.
+
+Job 1 is fetched at time 0 ms
+Job Table:
+There are no active jobs.
+
+-- Job 1 requests a core at time 0 ms for 50 ms.
+-- Job 1 will release a core at time 50 ms.
+-- Job 1 requests disk access at time 50 ms for 10 ms.
+-- Job 1 will release the disk at time 60 ms.
+-- Job 1 requests a core at time 60 ms for 150 ms.
+-- Job 1 will release a core at time 210 ms.
+-- Job 1 requests disk access at time 210 ms for 0 ms.
+-- Job 1 will release the disk at time 210 ms.
+-- Job 1 requests a core at time 210 ms for 100 ms.
+-- Job 1 will release a core at time 310 ms.
+-- Job 1 requests disk access at time 310 ms for 0 ms.
+-- Job 1 will release the disk at time 310 ms.
+-- Job 1 requests a core at time 310 ms for 150 ms.
+-- Job 1 will release a core at time 460 ms.
+-- Job 1 requests disk access at time 460 ms for 0 ms.
+-- Job 1 will release the disk at time 460 ms.
+-- Job 1 requests a core at time 460 ms for 100 ms.
+-- Job 1 will release a core at time 560 ms.
+-- Job 1 requests disk access at time 560 ms for 0 ms.
+-- Job 1 will release the disk at time 560 ms.
+-- Job 1 requests a core at time 560 ms for 210 ms.
+-- Job 1 will release a core at time 770 ms.
+-- Job 1 requests disk access at time 770 ms for 9 ms.
+-- Job 1 will release the disk at time 779 ms.
+-- Job 1 requests a core at time 779 ms for 220 ms.
+-- Job 1 will release a core at time 999 ms.
+-- Job 1 requests disk access at time 999 ms for 9 ms.
+-- Job 1 will release the disk at time 1008 ms.
+-- Job 1 requests a core at time 1008 ms for 200 ms.
+-- Job 1 will release a core at time 1208 ms.
+-- Job 1 requests disk access at time 1208 ms for 9 ms.
+-- Job 1 will release the disk at time 1217 ms.
+-- Job 1 requests a core at time 1217 ms for 30 ms.
+-- Job 1 will release a core at time 1247 ms.
+-- Job 1 requests disk access at time 1247 ms for 9 ms.
+-- Job 1 will release the disk at time 1256 ms.
+-- Job 1 requests a core at time 1256 ms for 30 ms.
+-- Job 1 will release a core at time 1286 ms.
+-- Job 1 requests disk access at time 1286 ms for 9 ms.
+-- Job 1 will release the disk at time 1295 ms.
+-- Job 1 requests a core at time 1295 ms for 30 ms.
+-- Job 1 will release a core at time 1325 ms.
+-- Job 1 requests disk access at time 1325 ms for 8 ms.
+-- Job 1 will release the disk at time 1333 ms.
+-- Job 1 requests a core at time 1333 ms for 20 ms.
+-- Job 1 will release a core at time 1353 ms.
+-- Job 1 requests disk access at time 1353 ms for 8 ms.
+-- Job 1 will release the disk at time 1361 ms.
+-- Job 1 requests a core at time 1361 ms for 40 ms.
+-- Job 1 will release a core at time 1401 ms.
+-- Job 1 requests spooler access at time 1401 ms for 400 ms.
+-- Job 1 will release the spooler at time 1801 ms.
+-- Job 1 requests a core at time 1801 ms for 200 ms.
+-- Job 1 will release a core at time 2001 ms.
+-- Job 1 requests spooler access at time 2001 ms for 500 ms.
+-- Job 1 will release the spooler at time 2501 ms.
+-- Job 1 requests a core at time 2501 ms for 10 ms.
+-- Job 1 will release a core at time 2511 ms.
+-- Job 1 requests disk access at time 2511 ms for 9 ms.
+-- Job 1 will release the disk at time 2520 ms.
+-- Job 1 requests a core at time 2520 ms for 30 ms.
+-- Job 1 will release a core at time 2550 ms.
+
+Job 1 terminates at time 2550 ms.
+Job Table:
+Job 1 is TERMINATED.
+
+
+Job 2 is fetched at time 2550 ms
+Job Table:
+There are no active jobs.
+
+-- Job 2 requests a core at time 2550 ms for 50 ms.
+-- Job 2 will release a core at time 2600 ms.
+-- Job 2 requests disk access at time 2600 ms for 10 ms.
+-- Job 2 will release the disk at time 2610 ms.
+-- Job 2 requests a core at time 2610 ms for 150 ms.
+-- Job 2 will release a core at time 2760 ms.
+-- Job 2 requests disk access at time 2760 ms for 0 ms.
+-- Job 2 will release the disk at time 2760 ms.
+-- Job 2 requests a core at time 2760 ms for 100 ms.
+-- Job 2 will release a core at time 2860 ms.
+-- Job 2 requests disk access at time 2860 ms for 0 ms.
+-- Job 2 will release the disk at time 2860 ms.
+-- Job 2 requests a core at time 2860 ms for 150 ms.
+-- Job 2 will release a core at time 3010 ms.
+-- Job 2 requests disk access at time 3010 ms for 0 ms.
+-- Job 2 will release the disk at time 3010 ms.
+-- Job 2 requests a core at time 3010 ms for 100 ms.
+-- Job 2 will release a core at time 3110 ms.
+-- Job 2 requests disk access at time 3110 ms for 0 ms.
+-- Job 2 will release the disk at time 3110 ms.
+-- Job 2 requests a core at time 3110 ms for 210 ms.
+-- Job 2 will release a core at time 3320 ms.
+-- Job 2 requests disk access at time 3320 ms for 11 ms.
+-- Job 2 will release the disk at time 3331 ms.
+-- Job 2 requests a core at time 3331 ms for 220 ms.
+-- Job 2 will release a core at time 3551 ms.
+-- Job 2 requests disk access at time 3551 ms for 8 ms.
+-- Job 2 will release the disk at time 3559 ms.
+-- Job 2 requests a core at time 3559 ms for 200 ms.
+-- Job 2 will release a core at time 3759 ms.
+-- Job 2 requests disk access at time 3759 ms for 9 ms.
+-- Job 2 will release the disk at time 3768 ms.
+-- Job 2 requests a core at time 3768 ms for 30 ms.
+-- Job 2 will release a core at time 3798 ms.
+-- Job 2 requests disk access at time 3798 ms for 8 ms.
+-- Job 2 will release the disk at time 3806 ms.
+-- Job 2 requests a core at time 3806 ms for 30 ms.
+-- Job 2 will release a core at time 3836 ms.
+-- Job 2 requests disk access at time 3836 ms for 7 ms.
+-- Job 2 will release the disk at time 3843 ms.
+-- Job 2 requests a core at time 3843 ms for 80 ms.
+-- Job 2 will release a core at time 3923 ms.
+-- Job 2 requests disk access at time 3923 ms for 8 ms.
+-- Job 2 will release the disk at time 3931 ms.
+-- Job 2 requests a core at time 3931 ms for 70 ms.
+-- Job 2 will release a core at time 4001 ms.
+-- Job 2 requests disk access at time 4001 ms for 7 ms.
+-- Job 2 will release the disk at time 4008 ms.
+-- Job 2 requests a core at time 4008 ms for 30 ms.
+-- Job 2 will release a core at time 4038 ms.
+-- Job 2 requests disk access at time 4038 ms for 8 ms.
+-- Job 2 will release the disk at time 4046 ms.
+-- Job 2 requests a core at time 4046 ms for 20 ms.
+-- Job 2 will release a core at time 4066 ms.
+-- Job 2 requests disk access at time 4066 ms for 8 ms.
+-- Job 2 will release the disk at time 4074 ms.
+-- Job 2 requests a core at time 4074 ms for 60 ms.
+-- Job 2 will release a core at time 4134 ms.
+-- Job 2 requests spooler access at time 4134 ms for 600 ms.
+-- Job 2 will release the spooler at time 4734 ms.
+-- Job 2 requests a core at time 4734 ms for 200 ms.
+-- Job 2 will release a core at time 4934 ms.
+-- Job 2 requests spooler access at time 4934 ms for 200 ms.
+-- Job 2 will release the spooler at time 5134 ms.
+-- Job 2 requests a core at time 5134 ms for 80 ms.
+-- Job 2 will release a core at time 5214 ms.
+-- Job 2 requests disk access at time 5214 ms for 9 ms.
+-- Job 2 will release the disk at time 5223 ms.
+-- Job 2 requests a core at time 5223 ms for 10 ms.
+-- Job 2 will release a core at time 5233 ms.
+-- Job 2 requests disk access at time 5233 ms for 9 ms.
+-- Job 2 will release the disk at time 5242 ms.
+-- Job 2 requests a core at time 5242 ms for 10 ms.
+-- Job 2 will release a core at time 5252 ms.
+-- Job 2 requests disk access at time 5252 ms for 9 ms.
+-- Job 2 will release the disk at time 5261 ms.
+-- Job 2 requests a core at time 5261 ms for 30 ms.
+-- Job 2 will release a core at time 5291 ms.
+
+Job 2 terminates at time 5291 ms.
+Job Table:
+Job 2 is TERMINATED.
+
+
+Job 3 is fetched at time 5291 ms
+Job Table:
+There are no active jobs.
+
+-- Job 3 requests a core at time 5291 ms for 50 ms.
+-- Job 3 will release a core at time 5341 ms.
+-- Job 3 requests disk access at time 5341 ms for 10 ms.
+-- Job 3 will release the disk at time 5351 ms.
+-- Job 3 requests a core at time 5351 ms for 100 ms.
+-- Job 3 will release a core at time 5451 ms.
+-- Job 3 requests disk access at time 5451 ms for 0 ms.
+-- Job 3 will release the disk at time 5451 ms.
+-- Job 3 requests a core at time 5451 ms for 150 ms.
+-- Job 3 will release a core at time 5601 ms.
+-- Job 3 requests disk access at time 5601 ms for 0 ms.
+-- Job 3 will release the disk at time 5601 ms.
+-- Job 3 requests a core at time 5601 ms for 100 ms.
+-- Job 3 will release a core at time 5701 ms.
+-- Job 3 requests disk access at time 5701 ms for 0 ms.
+-- Job 3 will release the disk at time 5701 ms.
+-- Job 3 requests a core at time 5701 ms for 70 ms.
+-- Job 3 will release a core at time 5771 ms.
+-- Job 3 requests disk access at time 5771 ms for 9 ms.
+-- Job 3 will release the disk at time 5780 ms.
+-- Job 3 requests a core at time 5780 ms for 90 ms.
+-- Job 3 will release a core at time 5870 ms.
+-- Job 3 requests disk access at time 5870 ms for 9 ms.
+-- Job 3 will release the disk at time 5879 ms.
+-- Job 3 requests a core at time 5879 ms for 200 ms.
+-- Job 3 will release a core at time 6079 ms.
+-- Job 3 requests disk access at time 6079 ms for 9 ms.
+-- Job 3 will release the disk at time 6088 ms.
+-- Job 3 requests a core at time 6088 ms for 30 ms.
+-- Job 3 will release a core at time 6118 ms.
+-- Job 3 requests disk access at time 6118 ms for 9 ms.
+-- Job 3 will release the disk at time 6127 ms.
+-- Job 3 requests a core at time 6127 ms for 30 ms.
+-- Job 3 will release a core at time 6157 ms.
+-- Job 3 requests disk access at time 6157 ms for 9 ms.
+-- Job 3 will release the disk at time 6166 ms.
+-- Job 3 requests a core at time 6166 ms for 30 ms.
+-- Job 3 will release a core at time 6196 ms.
+-- Job 3 requests disk access at time 6196 ms for 8 ms.
+-- Job 3 will release the disk at time 6204 ms.
+-- Job 3 requests a core at time 6204 ms for 20 ms.
+-- Job 3 will release a core at time 6224 ms.
+-- Job 3 requests disk access at time 6224 ms for 8 ms.
+-- Job 3 will release the disk at time 6232 ms.
+-- Job 3 requests a core at time 6232 ms for 40 ms.
+-- Job 3 will release a core at time 6272 ms.
+-- Job 3 requests spooler access at time 6272 ms for 400 ms.
+-- Job 3 will release the spooler at time 6672 ms.
+-- Job 3 requests a core at time 6672 ms for 200 ms.
+-- Job 3 will release a core at time 6872 ms.
+-- Job 3 requests spooler access at time 6872 ms for 500 ms.
+-- Job 3 will release the spooler at time 7372 ms.
+-- Job 3 requests a core at time 7372 ms for 10 ms.
+-- Job 3 will release a core at time 7382 ms.
+-- Job 3 requests disk access at time 7382 ms for 9 ms.
+-- Job 3 will release the disk at time 7391 ms.
+-- Job 3 requests a core at time 7391 ms for 30 ms.
+-- Job 3 will release a core at time 7421 ms.
+
+Job 3 terminates at time 7421 ms.
+Job Table:
+Job 3 is TERMINATED.
+
+
+Job 4 is fetched at time 7421 ms
+Job Table:
+There are no active jobs.
+
+-- Job 4 requests a core at time 7421 ms for 50 ms.
+-- Job 4 will release a core at time 7471 ms.
+-- Job 4 requests disk access at time 7471 ms for 10 ms.
+-- Job 4 will release the disk at time 7481 ms.
+-- Job 4 requests a core at time 7481 ms for 150 ms.
+-- Job 4 will release a core at time 7631 ms.
+-- Job 4 requests disk access at time 7631 ms for 0 ms.
+-- Job 4 will release the disk at time 7631 ms.
+-- Job 4 requests a core at time 7631 ms for 100 ms.
+-- Job 4 will release a core at time 7731 ms.
+-- Job 4 requests disk access at time 7731 ms for 0 ms.
+-- Job 4 will release the disk at time 7731 ms.
+-- Job 4 requests a core at time 7731 ms for 150 ms.
+-- Job 4 will release a core at time 7881 ms.
+-- Job 4 requests disk access at time 7881 ms for 0 ms.
+-- Job 4 will release the disk at time 7881 ms.
+-- Job 4 requests a core at time 7881 ms for 100 ms.
+-- Job 4 will release a core at time 7981 ms.
+-- Job 4 requests disk access at time 7981 ms for 0 ms.
+-- Job 4 will release the disk at time 7981 ms.
+-- Job 4 requests a core at time 7981 ms for 150 ms.
+-- Job 4 will release a core at time 8131 ms.
+-- Job 4 requests disk access at time 8131 ms for 0 ms.
+-- Job 4 will release the disk at time 8131 ms.
+-- Job 4 requests a core at time 8131 ms for 100 ms.
+-- Job 4 will release a core at time 8231 ms.
+-- Job 4 requests disk access at time 8231 ms for 0 ms.
+-- Job 4 will release the disk at time 8231 ms.
+-- Job 4 requests a core at time 8231 ms for 210 ms.
+-- Job 4 will release a core at time 8441 ms.
+-- Job 4 requests disk access at time 8441 ms for 11 ms.
+-- Job 4 will release the disk at time 8452 ms.
+-- Job 4 requests a core at time 8452 ms for 320 ms.
+-- Job 4 will release a core at time 8772 ms.
+-- Job 4 requests disk access at time 8772 ms for 8 ms.
+-- Job 4 will release the disk at time 8780 ms.
+-- Job 4 requests a core at time 8780 ms for 600 ms.
+-- Job 4 will release a core at time 9380 ms.
+-- Job 4 requests disk access at time 9380 ms for 8 ms.
+-- Job 4 will release the disk at time 9388 ms.
+-- Job 4 requests a core at time 9388 ms for 400 ms.
+-- Job 4 will release a core at time 9788 ms.
+-- Job 4 requests disk access at time 9788 ms for 9 ms.
+-- Job 4 will release the disk at time 9797 ms.
+-- Job 4 requests a core at time 9797 ms for 30 ms.
+-- Job 4 will release a core at time 9827 ms.
+-- Job 4 requests disk access at time 9827 ms for 8 ms.
+-- Job 4 will release the disk at time 9835 ms.
+-- Job 4 requests a core at time 9835 ms for 30 ms.
+-- Job 4 will release a core at time 9865 ms.
+-- Job 4 requests disk access at time 9865 ms for 7 ms.
+-- Job 4 will release the disk at time 9872 ms.
+-- Job 4 requests a core at time 9872 ms for 40 ms.
+-- Job 4 will release a core at time 9912 ms.
+-- Job 4 requests disk access at time 9912 ms for 8 ms.
+-- Job 4 will release the disk at time 9920 ms.
+-- Job 4 requests a core at time 9920 ms for 20 ms.
+-- Job 4 will release a core at time 9940 ms.
+-- Job 4 requests disk access at time 9940 ms for 7 ms.
+-- Job 4 will release the disk at time 9947 ms.
+-- Job 4 requests a core at time 9947 ms for 60 ms.
+-- Job 4 will release a core at time 10007 ms.
+-- Job 4 requests disk access at time 10007 ms for 8 ms.
+-- Job 4 will release the disk at time 10015 ms.
+-- Job 4 requests a core at time 10015 ms for 20 ms.
+-- Job 4 will release a core at time 10035 ms.
+-- Job 4 requests disk access at time 10035 ms for 8 ms.
+-- Job 4 will release the disk at time 10043 ms.
+-- Job 4 requests a core at time 10043 ms for 60 ms.
+-- Job 4 will release a core at time 10103 ms.
+-- Job 4 requests spooler access at time 10103 ms for 500 ms.
+-- Job 4 will release the spooler at time 10603 ms.
+-- Job 4 requests a core at time 10603 ms for 20 ms.
+-- Job 4 will release a core at time 10623 ms.
+-- Job 4 requests spooler access at time 10623 ms for 200 ms.
+-- Job 4 will release the spooler at time 10823 ms.
+-- Job 4 requests a core at time 10823 ms for 30 ms.
+-- Job 4 will release a core at time 10853 ms.
+-- Job 4 requests disk access at time 10853 ms for 9 ms.
+-- Job 4 will release the disk at time 10862 ms.
+-- Job 4 requests a core at time 10862 ms for 20 ms.
+-- Job 4 will release a core at time 10882 ms.
+-- Job 4 requests disk access at time 10882 ms for 9 ms.
+-- Job 4 will release the disk at time 10891 ms.
+-- Job 4 requests a core at time 10891 ms for 20 ms.
+-- Job 4 will release a core at time 10911 ms.
+-- Job 4 requests disk access at time 10911 ms for 7 ms.
+-- Job 4 will release the disk at time 10918 ms.
+-- Job 4 requests a core at time 10918 ms for 20 ms.
+-- Job 4 will release a core at time 10938 ms.
+
+Job 4 terminates at time 10938 ms.
+Job Table:
+Job 4 is TERMINATED.
+
+SUMMARY:
+Total elapsed time: 10938 ms
+Number of jobs that completed: 4
+Total number of disk accesses: 62
+CPU utilization: 0.663

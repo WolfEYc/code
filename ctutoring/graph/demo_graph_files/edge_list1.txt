@@ -1,0 +1,9 @@
+Unweighted
+Directed
+ListEdges
+6
+5 3
+0 4
+2 5
+3 5
+2 0

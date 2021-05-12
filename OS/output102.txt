@@ -1,0 +1,462 @@
+-- WARNING: All output lines starting with a double dash are there to show you
+-- how the simulation proceeds and are NEITHER REQUIRED NOR RECOMMENDED.
+
+Job 1 is fetched at time 0 ms
+Job Table:
+There are no active jobs.
+
+-- Job 1 requests a core at time 0 ms for 50 ms.
+-- Job 1 will release a core at time 50 ms.
+
+Job 2 is fetched at time 0 ms
+Job Table:
+Job 1 is RUNNING.
+
+-- Job 2 requests a core at time 0 ms for 50 ms.
+-- Job 2 must wait for a core.
+-- Ready queue now contains 1 job(s) waiting for a core.
+
+Job 3 is fetched at time 0 ms
+Job Table:
+Job 1 is RUNNING.
+Job 2 is READY.
+
+-- Job 3 requests a core at time 0 ms for 50 ms.
+-- Job 3 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 2 will release a core at time 100 ms.
+-- Job 1 requests disk access at time 50 ms for 10 ms.
+-- Job 1 will release the disk at time 60 ms.
+-- Job 1 requests a core at time 60 ms for 150 ms.
+-- Job 1 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 3 will release a core at time 150 ms.
+-- Job 2 requests disk access at time 100 ms for 10 ms.
+-- Job 2 will release the disk at time 110 ms.
+-- Job 2 requests a core at time 110 ms for 150 ms.
+-- Job 2 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 1 will release a core at time 300 ms.
+-- Job 3 requests disk access at time 150 ms for 10 ms.
+-- Job 3 will release the disk at time 160 ms.
+-- Job 3 requests a core at time 160 ms for 100 ms.
+-- Job 3 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 2 will release a core at time 450 ms.
+-- Job 1 requests disk access at time 300 ms for 0 ms.
+-- Job 1 immediately returns to the ready queue.
+-- Job 1 requests a core at time 300 ms for 100 ms.
+-- Job 1 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 3 will release a core at time 550 ms.
+-- Job 2 requests disk access at time 450 ms for 0 ms.
+-- Job 2 immediately returns to the ready queue.
+-- Job 2 requests a core at time 450 ms for 100 ms.
+-- Job 2 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 1 will release a core at time 650 ms.
+-- Job 3 requests disk access at time 550 ms for 0 ms.
+-- Job 3 immediately returns to the ready queue.
+-- Job 3 requests a core at time 550 ms for 150 ms.
+-- Job 3 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 2 will release a core at time 750 ms.
+-- Job 1 requests disk access at time 650 ms for 0 ms.
+-- Job 1 immediately returns to the ready queue.
+-- Job 1 requests a core at time 650 ms for 150 ms.
+-- Job 1 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 3 will release a core at time 900 ms.
+-- Job 2 requests disk access at time 750 ms for 0 ms.
+-- Job 2 immediately returns to the ready queue.
+-- Job 2 requests a core at time 750 ms for 150 ms.
+-- Job 2 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 1 will release a core at time 1050 ms.
+-- Job 3 requests disk access at time 900 ms for 0 ms.
+-- Job 3 immediately returns to the ready queue.
+-- Job 3 requests a core at time 900 ms for 100 ms.
+-- Job 3 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 2 will release a core at time 1200 ms.
+-- Job 1 requests disk access at time 1050 ms for 0 ms.
+-- Job 1 immediately returns to the ready queue.
+-- Job 1 requests a core at time 1050 ms for 100 ms.
+-- Job 1 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 3 will release a core at time 1300 ms.
+-- Job 2 requests disk access at time 1200 ms for 0 ms.
+-- Job 2 immediately returns to the ready queue.
+-- Job 2 requests a core at time 1200 ms for 100 ms.
+-- Job 2 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 1 will release a core at time 1400 ms.
+-- Job 3 requests disk access at time 1300 ms for 0 ms.
+-- Job 3 immediately returns to the ready queue.
+-- Job 3 requests a core at time 1300 ms for 70 ms.
+-- Job 3 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 2 will release a core at time 1500 ms.
+-- Job 1 requests disk access at time 1400 ms for 0 ms.
+-- Job 1 immediately returns to the ready queue.
+-- Job 1 requests a core at time 1400 ms for 210 ms.
+-- Job 1 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 3 will release a core at time 1570 ms.
+-- Job 2 requests disk access at time 1500 ms for 0 ms.
+-- Job 2 immediately returns to the ready queue.
+-- Job 2 requests a core at time 1500 ms for 210 ms.
+-- Job 2 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 1 will release a core at time 1780 ms.
+-- Job 3 requests disk access at time 1570 ms for 9 ms.
+-- Job 3 will release the disk at time 1579 ms.
+-- Job 3 requests a core at time 1579 ms for 90 ms.
+-- Job 3 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 2 will release a core at time 1990 ms.
+-- Job 1 requests disk access at time 1780 ms for 9 ms.
+-- Job 1 will release the disk at time 1789 ms.
+-- Job 1 requests a core at time 1789 ms for 220 ms.
+-- Job 1 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 3 will release a core at time 2080 ms.
+-- Job 2 requests disk access at time 1990 ms for 11 ms.
+-- Job 2 will release the disk at time 2001 ms.
+-- Job 2 requests a core at time 2001 ms for 220 ms.
+-- Job 2 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 1 will release a core at time 2300 ms.
+-- Job 3 requests disk access at time 2080 ms for 9 ms.
+-- Job 3 will release the disk at time 2089 ms.
+-- Job 3 requests a core at time 2089 ms for 200 ms.
+-- Job 3 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 2 will release a core at time 2520 ms.
+-- Job 1 requests disk access at time 2300 ms for 9 ms.
+-- Job 1 will release the disk at time 2309 ms.
+-- Job 1 requests a core at time 2309 ms for 200 ms.
+-- Job 1 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 3 will release a core at time 2720 ms.
+-- Job 2 requests disk access at time 2520 ms for 8 ms.
+-- Job 2 will release the disk at time 2528 ms.
+-- Job 2 requests a core at time 2528 ms for 200 ms.
+-- Job 2 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 1 will release a core at time 2920 ms.
+-- Job 3 requests disk access at time 2720 ms for 9 ms.
+-- Job 3 will release the disk at time 2729 ms.
+-- Job 3 requests a core at time 2729 ms for 30 ms.
+-- Job 3 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 2 will release a core at time 3120 ms.
+-- Job 1 requests disk access at time 2920 ms for 9 ms.
+-- Job 1 will release the disk at time 2929 ms.
+-- Job 1 requests a core at time 2929 ms for 30 ms.
+-- Job 1 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 3 will release a core at time 3150 ms.
+-- Job 2 requests disk access at time 3120 ms for 9 ms.
+-- Job 2 will release the disk at time 3129 ms.
+-- Job 2 requests a core at time 3129 ms for 30 ms.
+-- Job 2 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 1 will release a core at time 3180 ms.
+-- Job 3 requests disk access at time 3150 ms for 9 ms.
+-- Job 3 will release the disk at time 3159 ms.
+-- Job 3 requests a core at time 3159 ms for 30 ms.
+-- Job 3 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 2 will release a core at time 3210 ms.
+-- Job 1 requests disk access at time 3180 ms for 9 ms.
+-- Job 1 will release the disk at time 3189 ms.
+-- Job 1 requests a core at time 3189 ms for 30 ms.
+-- Job 1 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 3 will release a core at time 3240 ms.
+-- Job 2 requests disk access at time 3210 ms for 8 ms.
+-- Job 2 will release the disk at time 3218 ms.
+-- Job 2 requests a core at time 3218 ms for 30 ms.
+-- Job 2 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 1 will release a core at time 3270 ms.
+-- Job 3 requests disk access at time 3240 ms for 9 ms.
+-- Job 3 will release the disk at time 3249 ms.
+-- Job 3 requests a core at time 3249 ms for 30 ms.
+-- Job 3 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 2 will release a core at time 3300 ms.
+-- Job 1 requests disk access at time 3270 ms for 9 ms.
+-- Job 1 will release the disk at time 3279 ms.
+-- Job 1 requests a core at time 3279 ms for 30 ms.
+-- Job 1 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 3 will release a core at time 3330 ms.
+-- Job 2 requests disk access at time 3300 ms for 7 ms.
+-- Job 2 will release the disk at time 3307 ms.
+-- Job 2 requests a core at time 3307 ms for 80 ms.
+-- Job 2 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 1 will release a core at time 3360 ms.
+-- Job 3 requests disk access at time 3330 ms for 8 ms.
+-- Job 3 will release the disk at time 3338 ms.
+-- Job 3 requests a core at time 3338 ms for 20 ms.
+-- Job 3 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 2 will release a core at time 3440 ms.
+-- Job 1 requests disk access at time 3360 ms for 8 ms.
+-- Job 1 will release the disk at time 3368 ms.
+-- Job 1 requests a core at time 3368 ms for 20 ms.
+-- Job 1 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 3 will release a core at time 3460 ms.
+-- Job 2 requests disk access at time 3440 ms for 8 ms.
+-- Job 2 will release the disk at time 3448 ms.
+-- Job 2 requests a core at time 3448 ms for 70 ms.
+-- Job 2 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 1 will release a core at time 3480 ms.
+-- Job 3 requests disk access at time 3460 ms for 8 ms.
+-- Job 3 will release the disk at time 3468 ms.
+-- Job 3 requests a core at time 3468 ms for 40 ms.
+-- Job 3 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 2 will release a core at time 3550 ms.
+-- Job 1 requests disk access at time 3480 ms for 8 ms.
+-- Job 1 will release the disk at time 3488 ms.
+-- Job 1 requests a core at time 3488 ms for 40 ms.
+-- Job 1 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 3 will release a core at time 3590 ms.
+-- Job 2 requests disk access at time 3550 ms for 7 ms.
+-- Job 2 will release the disk at time 3557 ms.
+-- Job 2 requests a core at time 3557 ms for 30 ms.
+-- Job 2 must wait for a core.
+-- Ready queue now contains 2 job(s) waiting for a core.
+-- Job 1 will release a core at time 3630 ms.
+-- Job 3 requests spooler access at time 3590 ms for 400 ms.
+-- Job 3 will release the spooler at time 3990 ms.
+-- Job 2 will release a core at time 3660 ms.
+-- Job 1 requests spooler access at time 3630 ms for 400 ms.
+-- Job 1 must wait for the spooler.
+-- Spooler queue now contains 1 job(s) waiting for the spooler.
+-- Job 2 requests disk access at time 3660 ms for 8 ms.
+-- Job 2 will release the disk at time 3668 ms.
+-- Job 2 requests a core at time 3668 ms for 20 ms.
+-- Job 2 will release a core at time 3688 ms.
+-- Job 2 requests disk access at time 3688 ms for 8 ms.
+-- Job 2 will release the disk at time 3696 ms.
+-- Job 2 requests a core at time 3696 ms for 60 ms.
+-- Job 2 will release a core at time 3756 ms.
+-- Job 2 requests spooler access at time 3756 ms for 600 ms.
+-- Job 2 must wait for the spooler.
+-- Spooler queue now contains 2 job(s) waiting for the spooler.
+-- Give spooler to process 1 from the spooler queue.
+-- Spooler queue now contains 1 job(s) waiting for the spooler.
+-- Job 1 will release the spooler at time 4390 ms.
+-- Job 3 requests a core at time 3990 ms for 200 ms.
+-- Job 3 will release a core at time 4190 ms.
+-- Job 3 requests spooler access at time 4190 ms for 500 ms.
+-- Job 3 must wait for the spooler.
+-- Spooler queue now contains 2 job(s) waiting for the spooler.
+-- Give spooler to process 2 from the spooler queue.
+-- Spooler queue now contains 1 job(s) waiting for the spooler.
+-- Job 2 will release the spooler at time 4990 ms.
+-- Job 1 requests a core at time 4390 ms for 200 ms.
+-- Job 1 will release a core at time 4590 ms.
+-- Job 1 requests spooler access at time 4590 ms for 500 ms.
+-- Job 1 must wait for the spooler.
+-- Spooler queue now contains 2 job(s) waiting for the spooler.
+-- Give spooler to process 3 from the spooler queue.
+-- Spooler queue now contains 1 job(s) waiting for the spooler.
+-- Job 3 will release the spooler at time 5490 ms.
+-- Job 2 requests a core at time 4990 ms for 200 ms.
+-- Job 2 will release a core at time 5190 ms.
+-- Job 2 requests spooler access at time 5190 ms for 200 ms.
+-- Job 2 must wait for the spooler.
+-- Spooler queue now contains 2 job(s) waiting for the spooler.
+-- Give spooler to process 1 from the spooler queue.
+-- Spooler queue now contains 1 job(s) waiting for the spooler.
+-- Job 1 will release the spooler at time 5990 ms.
+-- Job 3 requests a core at time 5490 ms for 10 ms.
+-- Job 3 will release a core at time 5500 ms.
+-- Job 3 requests disk access at time 5500 ms for 9 ms.
+-- Job 3 will release the disk at time 5509 ms.
+-- Job 3 requests a core at time 5509 ms for 30 ms.
+-- Job 3 will release a core at time 5539 ms.
+
+Job 3 terminates at time 5539 ms.
+Job Table:
+Job 1 is BLOCKED.
+Job 2 is BLOCKED.
+Job 3 is TERMINATED.
+
+
+Job 4 is fetched at time 5539 ms
+Job Table:
+Job 1 is BLOCKED.
+Job 2 is BLOCKED.
+
+-- Job 4 requests a core at time 5539 ms for 50 ms.
+-- Job 4 will release a core at time 5589 ms.
+-- Job 4 requests disk access at time 5589 ms for 10 ms.
+-- Job 4 will release the disk at time 5599 ms.
+-- Job 4 requests a core at time 5599 ms for 150 ms.
+-- Job 4 will release a core at time 5749 ms.
+-- Job 4 requests disk access at time 5749 ms for 0 ms.
+-- Job 4 immediately returns to the ready queue.
+-- Job 4 requests a core at time 5749 ms for 100 ms.
+-- Job 4 will release a core at time 5849 ms.
+-- Job 4 requests disk access at time 5849 ms for 0 ms.
+-- Job 4 immediately returns to the ready queue.
+-- Job 4 requests a core at time 5849 ms for 150 ms.
+-- Job 4 will release a core at time 5999 ms.
+-- Give spooler to process 2 from the spooler queue.
+-- Spooler queue now contains 0 job(s) waiting for the spooler.
+-- Job 2 will release the spooler at time 6190 ms.
+-- Job 1 requests a core at time 5990 ms for 10 ms.
+-- Job 1 must wait for a core.
+-- Ready queue now contains 1 job(s) waiting for a core.
+-- Job 1 will release a core at time 6009 ms.
+-- Job 4 requests disk access at time 5999 ms for 0 ms.
+-- Job 4 immediately returns to the ready queue.
+-- Job 4 requests a core at time 5999 ms for 100 ms.
+-- Job 4 must wait for a core.
+-- Ready queue now contains 1 job(s) waiting for a core.
+-- Job 4 will release a core at time 6109 ms.
+-- Job 1 requests disk access at time 6009 ms for 9 ms.
+-- Job 1 will release the disk at time 6018 ms.
+-- Job 1 requests a core at time 6018 ms for 30 ms.
+-- Job 1 must wait for a core.
+-- Ready queue now contains 1 job(s) waiting for a core.
+-- Job 1 will release a core at time 6139 ms.
+-- Job 4 requests disk access at time 6109 ms for 0 ms.
+-- Job 4 immediately returns to the ready queue.
+-- Job 4 requests a core at time 6109 ms for 150 ms.
+-- Job 4 must wait for a core.
+-- Ready queue now contains 1 job(s) waiting for a core.
+-- Job 4 will release a core at time 6289 ms.
+
+Job 1 terminates at time 6139 ms.
+Job Table:
+Job 1 is TERMINATED.
+Job 2 is BLOCKED.
+Job 4 is RUNNING.
+
+-- Job 2 requests a core at time 6190 ms for 80 ms.
+-- Job 2 must wait for a core.
+-- Ready queue now contains 1 job(s) waiting for a core.
+-- Job 2 will release a core at time 6369 ms.
+-- Job 4 requests disk access at time 6289 ms for 0 ms.
+-- Job 4 immediately returns to the ready queue.
+-- Job 4 requests a core at time 6289 ms for 100 ms.
+-- Job 4 must wait for a core.
+-- Ready queue now contains 1 job(s) waiting for a core.
+-- Job 4 will release a core at time 6469 ms.
+-- Job 2 requests disk access at time 6369 ms for 9 ms.
+-- Job 2 will release the disk at time 6378 ms.
+-- Job 2 requests a core at time 6378 ms for 10 ms.
+-- Job 2 must wait for a core.
+-- Ready queue now contains 1 job(s) waiting for a core.
+-- Job 2 will release a core at time 6479 ms.
+-- Job 4 requests disk access at time 6469 ms for 0 ms.
+-- Job 4 immediately returns to the ready queue.
+-- Job 4 requests a core at time 6469 ms for 210 ms.
+-- Job 4 must wait for a core.
+-- Ready queue now contains 1 job(s) waiting for a core.
+-- Job 4 will release a core at time 6689 ms.
+-- Job 2 requests disk access at time 6479 ms for 9 ms.
+-- Job 2 will release the disk at time 6488 ms.
+-- Job 2 requests a core at time 6488 ms for 10 ms.
+-- Job 2 must wait for a core.
+-- Ready queue now contains 1 job(s) waiting for a core.
+-- Job 2 will release a core at time 6699 ms.
+-- Job 4 requests disk access at time 6689 ms for 11 ms.
+-- Job 4 will release the disk at time 6700 ms.
+-- Job 2 requests disk access at time 6699 ms for 9 ms.
+-- Job 2 must wait for the disk.
+-- Disk queue now contains 1 job(s) waiting for the disk.
+-- Give disk to process 2 from the disk queue.
+-- Disk queue now contains 0 job(s) waiting for the disk.
+-- Job 2 will release the disk at time 6709 ms.
+-- Job 4 requests a core at time 6700 ms for 320 ms.
+-- Job 4 will release a core at time 7020 ms.
+-- Job 2 requests a core at time 6709 ms for 30 ms.
+-- Job 2 must wait for a core.
+-- Ready queue now contains 1 job(s) waiting for a core.
+-- Job 2 will release a core at time 7050 ms.
+-- Job 4 requests disk access at time 7020 ms for 8 ms.
+-- Job 4 will release the disk at time 7028 ms.
+-- Job 4 requests a core at time 7028 ms for 600 ms.
+-- Job 4 must wait for a core.
+-- Ready queue now contains 1 job(s) waiting for a core.
+-- Job 4 will release a core at time 7650 ms.
+
+Job 2 terminates at time 7050 ms.
+Job Table:
+Job 2 is TERMINATED.
+Job 4 is RUNNING.
+
+-- Job 4 requests disk access at time 7650 ms for 8 ms.
+-- Job 4 will release the disk at time 7658 ms.
+-- Job 4 requests a core at time 7658 ms for 400 ms.
+-- Job 4 will release a core at time 8058 ms.
+-- Job 4 requests disk access at time 8058 ms for 9 ms.
+-- Job 4 will release the disk at time 8067 ms.
+-- Job 4 requests a core at time 8067 ms for 30 ms.
+-- Job 4 will release a core at time 8097 ms.
+-- Job 4 requests disk access at time 8097 ms for 8 ms.
+-- Job 4 will release the disk at time 8105 ms.
+-- Job 4 requests a core at time 8105 ms for 30 ms.
+-- Job 4 will release a core at time 8135 ms.
+-- Job 4 requests disk access at time 8135 ms for 7 ms.
+-- Job 4 will release the disk at time 8142 ms.
+-- Job 4 requests a core at time 8142 ms for 40 ms.
+-- Job 4 will release a core at time 8182 ms.
+-- Job 4 requests disk access at time 8182 ms for 8 ms.
+-- Job 4 will release the disk at time 8190 ms.
+-- Job 4 requests a core at time 8190 ms for 20 ms.
+-- Job 4 will release a core at time 8210 ms.
+-- Job 4 requests disk access at time 8210 ms for 7 ms.
+-- Job 4 will release the disk at time 8217 ms.
+-- Job 4 requests a core at time 8217 ms for 60 ms.
+-- Job 4 will release a core at time 8277 ms.
+-- Job 4 requests disk access at time 8277 ms for 8 ms.
+-- Job 4 will release the disk at time 8285 ms.
+-- Job 4 requests a core at time 8285 ms for 20 ms.
+-- Job 4 will release a core at time 8305 ms.
+-- Job 4 requests disk access at time 8305 ms for 8 ms.
+-- Job 4 will release the disk at time 8313 ms.
+-- Job 4 requests a core at time 8313 ms for 60 ms.
+-- Job 4 will release a core at time 8373 ms.
+-- Job 4 requests spooler access at time 8373 ms for 500 ms.
+-- Job 4 will release the spooler at time 8873 ms.
+-- Job 4 requests a core at time 8873 ms for 20 ms.
+-- Job 4 will release a core at time 8893 ms.
+-- Job 4 requests spooler access at time 8893 ms for 200 ms.
+-- Job 4 will release the spooler at time 9093 ms.
+-- Job 4 requests a core at time 9093 ms for 30 ms.
+-- Job 4 will release a core at time 9123 ms.
+-- Job 4 requests disk access at time 9123 ms for 9 ms.
+-- Job 4 will release the disk at time 9132 ms.
+-- Job 4 requests a core at time 9132 ms for 20 ms.
+-- Job 4 will release a core at time 9152 ms.
+-- Job 4 requests disk access at time 9152 ms for 9 ms.
+-- Job 4 will release the disk at time 9161 ms.
+-- Job 4 requests a core at time 9161 ms for 20 ms.
+-- Job 4 will release a core at time 9181 ms.
+-- Job 4 requests disk access at time 9181 ms for 7 ms.
+-- Job 4 will release the disk at time 9188 ms.
+-- Job 4 requests a core at time 9188 ms for 20 ms.
+-- Job 4 will release a core at time 9208 ms.
+
+Job 4 terminates at time 9208 ms.
+Job Table:
+Job 4 is TERMINATED.
+
+SUMMARY:
+Total elapsed time: 9208 ms
+Number of jobs that completed: 4
+Total number of disk accesses: 62
+CPU utilization: 0.787
