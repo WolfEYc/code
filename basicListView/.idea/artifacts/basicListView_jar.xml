@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="basicListView:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/basicListView_jar</output-path>
+    <root id="archive" name="basicListView.jar">
+      <element id="module-output" name="basicListView" />
+    </root>
+  </artifact>
+</component>

@@ -19,6 +19,8 @@ public class GameService {
 	 * Holds the next game identifier
 	 */
 	private static long nextGameId = 1;
+	private static long nextPlayerId = 0;
+	private static long nextTeamId = 0;
 
 	// FIXME: Add missing pieces to turn this class a singleton
 	private static GameService single_instance = null;
@@ -118,4 +120,15 @@ public class GameService {
 	public int getGameCount() {
 		return games.size();
 	}
+
+	public long getNextPlayerId(){
+		nextPlayerId++;
+		return nextPlayerId;
+	}
+
+	public long getNextTeamId(){
+		nextTeamId++;
+		return nextTeamId;
+	}
+
 }

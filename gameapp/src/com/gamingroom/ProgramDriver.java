@@ -21,9 +21,30 @@ public class ProgramDriver {
 		
 		// initialize with some game data
 		Game game1 = service.addGame("Game #1");
-		System.out.println(game1);
 		Game game2 = service.addGame("Game #2");
-		System.out.println(game2);
+
+		Team team1 = game1.addTeam("Team #1");
+		team1.addPlayer("Player #1");
+
+
+		team1 = game2.addTeam("Team #1");
+		team1.addPlayer("Player #1");
+		team1.addPlayer("Player #2");
+
+
+		game2.addTeam("Team #2");
+
+		for (int i = 0; i < service.getGameCount(); i++) {
+			System.out.println();
+			Game g = service.getGame(i);
+			System.out.println(g);
+			for(Team t : g.teams){
+				System.out.println("\t"+t);
+				for(Player p : t.players){
+					System.out.println("\t\t"+p);
+				}
+			}
+		}
 		
 		// use another class to prove there is only one instance
 		SingletonTester tester = new SingletonTester();

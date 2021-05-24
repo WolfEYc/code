@@ -16,7 +16,15 @@ public class SingletonTester {
 		
 		// a simple for loop to print the games
 		for (int i = 0; i < service.getGameCount(); i++) {
-			System.out.println(service.getGame(i));
+			System.out.println();
+			Game g = service.getGame(i);
+			System.out.println(g);
+			for(Team t : g.teams){
+				System.out.println("\t"+t);
+				for(Player p : t.players){
+					System.out.println("\t\t"+p);
+				}
+			}
 		}
 
 	}

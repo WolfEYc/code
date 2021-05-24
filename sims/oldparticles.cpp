@@ -9,7 +9,7 @@ To compile and run
 g++ oldparticles.cpp -o oldparticles -lsfml-graphics -lsfml-window -lsfml-system && ./oldparticles
 */
 
-float gravity = 0.f, acc_reducer = 1.f, radius = 1.f, damper = 10.f, cordLength = 0.f;
+float gravity = 0.f, acc_reducer = 1.f, radius = 1.f, damper = 15.f, cordLength = 0.f;
 unsigned nballs = 8000, sx = 1920, sy = 1080, trailL = 50, count = 0, cores = std::thread::hardware_concurrency();
 bool pull = false;
 
@@ -107,14 +107,9 @@ void update(unsigned int section){
         balls[i].updatePos();
         
         float cbrtdist = cbrt(dis);
-        
-        if(count < 200)
-            balls[i].rep.setFillColor(Color (200/cbrtdist,count/cbrtdist,30));
-        else if (count < 400)
-            balls[i].rep.setFillColor(Color (100/cbrtdist,200/cbrtdist,(count-200)/cbrtdist));
-        else
-            balls[i].rep.setFillColor(Color (150/cbrtdist,30,200/cbrtdist));            
-        
+
+        balls[i].rep.setFillColor(Color (220/cbrtdist,80/cbrtdist,30));
+
     }      
 }
 
@@ -168,7 +163,7 @@ int main()
         window.clear(Color::Black);
         render();
         window.display();
-        count++;
+        //count++;
     }
     return 0;
 }
