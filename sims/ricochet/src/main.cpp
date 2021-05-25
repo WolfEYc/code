@@ -1,6 +1,5 @@
 #include <SFML/Graphics.hpp>
 #include <bits/stdc++.h>
-
 using namespace sf;
 
 unsigned screenx = 600, screeny = 600, fps = 24, level = 3, maxric = 8, curr = 0, wallBuild = 0;
