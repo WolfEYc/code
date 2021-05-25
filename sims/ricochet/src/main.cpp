@@ -3,11 +3,9 @@
 
 using namespace sf;
 
-#define PI 3.14159265
-
 unsigned screenx = 600, screeny = 600, fps = 24, level = 3, maxric = 8, curr = 0, wallBuild = 0;
 bool rclicking = 0, shot = 0, showMenu = 0, mainMenu = 0, targetPlace = 0;
-//std::vector<CircleShape> aimdots;
+
 std::vector<VertexArray> walls;
 std::vector<RectangleShape> enemies;
 std::vector<bool> whoisHit;
@@ -21,7 +19,6 @@ Texture buildText, placeText, backText, delWalltext, delTargettext;
 Sprite buildwall, placeTarget, goBack, delWall, delTarget;
 
 RenderWindow window(VideoMode(screenx,screeny), "Ricochet", Style::Close);
-//i aint movin the camera screw u
 
 struct leveld
 {
@@ -307,10 +304,7 @@ bool collides (Vector2f a1, Vector2f a2, Vector2f b1, Vector2f b2){
     else
         bneg = 1;
 
-    
-
     return bneg == aneg && furthest < wall_length;
-   
 }
 
 unsigned firstCollision (Vector2f a1, Vector2f a2, unsigned prevwall){
@@ -342,7 +336,6 @@ unsigned firstCollision (Vector2f a1, Vector2f a2, unsigned prevwall){
 
 Vector2f newPivot(Vector2f a1, Vector2f ipoint, Vector2f walla, Vector2f wallb){
 
-    //Vector2f perp_for_theta = calcPerpIntersect(a1,walla,wallb);
     float bM = (wallb.y-walla.y)/(wallb.x-walla.x);
     
     float pM = -1.f/(bM); //perpendicular slope (sign flipped inverse)
@@ -352,34 +345,11 @@ Vector2f newPivot(Vector2f a1, Vector2f ipoint, Vector2f walla, Vector2f wallb){
     
     Vector2f midpoint = calcPerpIntersect(a1, y_int, ipoint);
 
-    //std::cout << "Midpoint: ";
-    //printVector2f(midpoint);
-
-    /*
-    float adj = dist(midpoint - ipoint);
-    float hyp = dist(ipoint - a1);
-
-    //std::cout << adj << " " << hyp << std::endl;
-
-    float theta = acos(adj/hyp);
-
-    //std::cout << theta << std::endl;
-
-    //float shit = (PI-2*theta)/2;
-
-    float X = a1.x*cos(theta);
-    float Y = a1.y*sin(theta);
-    */
-   /*
-    float X = midpoint.x + (midpoint.x-a1.x);
-    float Y = midpoint.y + (midpoint.y-a1.y);
-    */
-
     return (2.f,2.f) * midpoint - a1;
-
 }
 
 void calcShot(){
+
     Vector2f a1 = gun.getPosition();
     Vector2f a2 = pivot.getPosition();
 
@@ -391,16 +361,12 @@ void calcShot(){
     }
 
     unsigned wallhit;
-
-
     for(unsigned i = 0; i < maxric; i++){
 
         wallhit = firstCollision(a1,a2,wallhit);
 
         if(wallhit == 69)
             break;
-
-        //std::cout << wallhit << " at ";
 
         Vector2f b1 = walls[wallhit][0].position;
         Vector2f b2 = walls[wallhit][1].position;
@@ -414,26 +380,17 @@ void calcShot(){
             }
         }
 
-        
-        //printVector2f(collision_v);
-
         VertexArray shot(LineStrip,2);
         shot[0].position = a1;
         shot[0].color = Color(155,135,12);
         shot[1].position = collision_v;
         shot[1].color = Color(155,135,12);
 
-        
         shots[i] = shot;
 
         a2 = newPivot(a1,collision_v,b1,b2);
-
-        //std::cout << "New Pivot: ";
-        //printVector2f(a2);
-
         a1 = collision_v;
-    }    
-
+    }
 }
 
 int main(){
