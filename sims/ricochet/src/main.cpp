@@ -1,13 +1,16 @@
 #include <SFML/Graphics.hpp>
 #include <bits/stdc++.h>
 #include <experimental/filesystem>
+#include <locale>
 #include "vecmath.h"
 #include "level.h"
 using namespace sf;
 namespace fs = std::experimental::filesystem;
 
+Clock c;
+
 unsigned screenx = 600, screeny = 600, fps = 24, level = 0, maxric = 8, curr = 0, wallBuild = 0;
-bool rclicking = 0, shot = 0, showMenu = 0, mainMenu = 1, targetPlace = 0, saving = 0;
+bool rclicking = 0, shot = 0, showMenu = 0, mainMenu = 1, targetPlace = 0, editlevelname = 0;
 
 Font font;
 std::string levelname;
@@ -249,11 +252,6 @@ void render(){
     windowoffset.y+=30;
     Vector2f mousepos = Vector2f(Mouse::getPosition()-windowoffset);
 
-    //draw somethin
-
-    
-
-
     if(!shot){        
         for(unsigned line = 0; line < maxric; line++){
             window.draw(shots[line]);
@@ -278,14 +276,31 @@ void render(){
     
 
     if(showMenu){
+        if(editlevelname){
+            static sf::Time text_effect_time;
+            static bool show_cursor;
+
+            text_effect_time += c.restart();
+
+            if (text_effect_time >= sf::seconds(0.5f))
+            {
+                show_cursor = !show_cursor;
+                text_effect_time = sf::Time::Zero;
+            }
+
+            leveltext.setString(levelname + (show_cursor ? '_' : ' '));
+        }else{
+            leveltext.setString(levelname);
+        }
+
+
         window.draw(goBack);
         if(level == 0){
             window.draw(buildwall);
             window.draw(placeTarget);
             window.draw(delWall);
             window.draw(delTarget);
-            window.draw(save);
-            leveltext.setString(levelname);            
+            window.draw(save);                        
         }
         window.draw(leveltext);
     }
@@ -504,8 +519,13 @@ int main(){
                                     enemies.pop_back();
                             }
                             if(save.getGlobalBounds().contains(newpos)){
-                                saving = 1;
+                                saveLevel();
                                 std::cout << "saving level" << std::endl;                                
+                            }
+                            if(leveltext.getGlobalBounds().contains(newpos)){
+                                editlevelname = 1;
+                                std::cout << "editing level" << std::endl;
+
                             }
 
                         }
@@ -536,14 +556,11 @@ int main(){
                         
                         break;
                     case Keyboard::BackSpace:
-                        if(saving && !levelname.empty())
+                        if(editlevelname && !levelname.empty())
                             levelname.pop_back();
                         break;
                     case Keyboard::Enter:
-                        if(saving && !levelname.empty()){
-                            saving = 0;
-                            saveLevel();
-                        }
+                        editlevelname = 0;
                         break;
 
                 }
@@ -554,8 +571,8 @@ int main(){
                     rclicking = 0;
                 }
             }
-            if (saving && e.type == sf::Event::TextEntered) {
-                if (std::isprint(e.text.unicode))
+            if (editlevelname && e.type == sf::Event::TextEntered) {
+                if (std::isprint(e.text.unicode) && e.text.unicode!=' ')
                     levelname += e.text.unicode;
             }
 
