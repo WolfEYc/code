@@ -6,15 +6,16 @@
 using namespace sf;
 namespace fs = std::experimental::filesystem;
 
-unsigned screenx = 600, screeny = 600, fps = 24, level = 4, maxric = 8, curr = 0, wallBuild = 0;
-bool rclicking = 0, shot = 0, showMenu = 0, mainMenu = 0, targetPlace = 0, saving = 0;
+unsigned screenx = 600, screeny = 600, fps = 24, level = 0, maxric = 8, curr = 0, wallBuild = 0;
+bool rclicking = 0, shot = 0, showMenu = 0, mainMenu = 1, targetPlace = 0, saving = 0;
 
 Font font;
 std::string levelname;
 Text leveltext;
 
 std::vector<VertexArray> walls;
-std::vector<RectangleShape> enemies;
+std::vector<RectangleShape> enemies, levelselector;
+std::vector<Text> selectorText;
 std::vector<bool> whoisHit;
 std::vector<VertexArray> shots(maxric); 
 
@@ -22,10 +23,11 @@ CircleShape pivot, gun;
 RectangleShape enemy(Vector2f(10.f,20.f));
 VertexArray newWall(LinesStrip,2);
 
-Texture buildText, placeText, backText, delWalltext, delTargettext, saveText;
-Sprite buildwall, placeTarget, goBack, delWall, delTarget, save;
+Texture buildText, placeText, backText, delWalltext, delTargettext, saveText, mainScreenText;
+Sprite buildwall, placeTarget, goBack, delWall, delTarget, save, mainScreen;
 
 RenderWindow window(VideoMode(screenx,screeny), "Ricochet", Style::Close);
+View view(window.getDefaultView());
 
 std::vector<leveld> levels;
 std::vector<std::ifstream> levelfiles;
@@ -132,6 +134,37 @@ void initLevels(){
         levels.push_back(l);
 
     }
+    
+    unsigned x = 0, y = 0;
+    RectangleShape levelrect;
+    levelrect.setFillColor(Color::Blue);
+    levelrect.setSize(Vector2f(150.f,50.f));
+    levelrect.setOutlineThickness(3.f);
+    levelrect.setOutlineColor(Color::White);
+
+
+    Text ltext;
+    ltext.setFont(font);
+    ltext.setCharacterSize(20);
+    
+
+    for(unsigned i = 0; i < levels.size(); i++, x++){
+        if(x == 3){
+            x = 0;
+            y++;
+        }
+        if(i)
+            levelrect.setFillColor(Color::Red);
+            
+
+        ltext.setString(levels[i].name.substr(0,20));
+        ltext.setPosition(x*175+60.f,y*100+260.f);
+        selectorText.push_back(ltext);
+
+        levelrect.setPosition(Vector2f(x*175+50.f,y*100+250.f));
+        levelselector.push_back(levelrect);
+
+    }
 
 }
 
@@ -140,6 +173,17 @@ void load(){
     enemies = levels[level].enemies;
     gun.setPosition(levels[level].center);
     levelname = levels[level].name;
+    if(!level)
+        leveltext.setPosition(Vector2f(325.f,25.f));
+    else
+        leveltext.setPosition(Vector2f(75.f,25.f));
+
+    leveltext.setString(levelname);
+    shots = std::vector<VertexArray>(maxric);
+    Vector2f pivpos = gun.getPosition();
+    pivpos.y-=10.f;
+    pivpos.x+=10.f;
+    pivot.setPosition(pivpos);
 }
 
 void init(){ //called once at startup
@@ -155,10 +199,7 @@ void init(){ //called once at startup
     pivot.setRadius(5.f);
     pivot.setFillColor(Color::Blue);
     pivot.setOrigin(5.f,5.f);
-    Vector2f pivpos = gun.getPosition();
-    pivpos.y-=10.f;
-    pivpos.x+=10.f;
-    pivot.setPosition(pivpos);
+    
 
     buildText.loadFromFile("resources/buildwall.png");
     placeText.loadFromFile("resources/placeTarget.png");
@@ -166,6 +207,7 @@ void init(){ //called once at startup
     delTargettext.loadFromFile("resources/delTarget.png");
     delWalltext.loadFromFile("resources/delWall.png");
     saveText.loadFromFile("resources/save.png");
+    mainScreenText.loadFromFile("resources/logo.png");
     
     buildwall.setTexture(buildText);
     placeTarget.setTexture(placeText);
@@ -173,33 +215,45 @@ void init(){ //called once at startup
     delTarget.setTexture(delTargettext);
     delWall.setTexture(delWalltext);
     save.setTexture(saveText);
+    mainScreen.setTexture(mainScreenText);
 
     goBack.setPosition(Vector2f(25.f,25.f));
     buildwall.setPosition(Vector2f(75.f,25.f));
     placeTarget.setPosition(Vector2f(125.f,25.f));
     delWall.setPosition(Vector2f(175.f,25.f));
     delTarget.setPosition(Vector2f(225.f,25.f));
-    save.setPosition(Vector2f(275.f,25.f)); 
+    save.setPosition(Vector2f(275.f,25.f));
+    mainScreen.setPosition(Vector2f(100.f,100.f)); 
 
     leveltext.setFont(font);
     leveltext.setCharacterSize(20);
     leveltext.setFillColor(Color::White);
-    if(!level)
-        leveltext.setPosition(Vector2f(325.f,25.f));
-    else
-        leveltext.setPosition(Vector2f(75.f,25.f));
-
-    leveltext.setString(levelname);
+    
 }
 
 void render(){
     window.clear();
+
+    if(mainMenu){
+        window.setView(view);
+        window.draw(mainScreen);
+        for(unsigned i = 0; i < levelselector.size(); i++){
+            window.draw(levelselector[i]);
+            window.draw(selectorText[i]);
+        }
+        window.display();
+        return;
+    }
 
     Vector2i windowoffset = window.getPosition();
     windowoffset.y+=30;
     Vector2f mousepos = Vector2f(Mouse::getPosition()-windowoffset);
 
     //draw somethin
+
+    
+
+
     if(!shot){        
         for(unsigned line = 0; line < maxric; line++){
             window.draw(shots[line]);
@@ -220,6 +274,8 @@ void render(){
 
     window.draw(gun);
     window.draw(pivot);
+
+    
 
     if(showMenu){
         window.draw(goBack);
@@ -361,12 +417,44 @@ int main(){
             if (e.type == Event::Closed)
                 window.close();
 
+            if(e.type == Event::MouseWheelScrolled){
+                if(mainMenu){
+                    if(e.mouseWheelScroll.delta == 1){
+                        if(view.getCenter().y>300.f){
+                            Vector2f viewcenter = view.getCenter();
+                            viewcenter.y-=20;
+                            view.setCenter(viewcenter);
+                        }
+                    }else{
+                        Vector2f viewcenter = view.getCenter();
+                        viewcenter.y+=20;
+                        view.setCenter(viewcenter);
+                    }
+                }
+            }
+
             if(e.type == Event::MouseButtonPressed){ // do shooty stuff
                 if(Mouse::isButtonPressed(Mouse::Left)){
                     Vector2i windowoffset = window.getPosition();
                     windowoffset.y+=30;
                     Vector2f newpos = Vector2f(Mouse::getPosition()-windowoffset);
 
+                    if(mainMenu){
+                        for(unsigned i = 0; i < levelselector.size(); i++){
+                            if(levelselector[i].getGlobalBounds().contains(newpos)){
+                                //clicked on a level
+                                level = i;
+                                load();
+                                view = window.getDefaultView();
+                                window.setView(view);
+                                mainMenu = 0;
+
+                            }
+
+                        }
+
+
+                    }else
                     if(targetPlace){
                         enemy.setPosition(newpos);
                         enemies.push_back(enemy);
@@ -390,7 +478,7 @@ int main(){
                     if(showMenu){
                         
                         if(goBack.getGlobalBounds().contains(newpos)){
-                            //mainMenu = 1;
+                            mainMenu = 1;
                             std::cout << "going back" << std::endl;
                         }
 
