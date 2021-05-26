@@ -1,9 +1,15 @@
 #include <SFML/Graphics.hpp>
 #include <bits/stdc++.h>
+#include <experimental/filesystem>
 using namespace sf;
+namespace fs = std::experimental::filesystem;
 
-unsigned screenx = 600, screeny = 600, fps = 24, level = 3, maxric = 8, curr = 0, wallBuild = 0;
-bool rclicking = 0, shot = 0, showMenu = 0, mainMenu = 0, targetPlace = 0;
+unsigned screenx = 600, screeny = 600, fps = 24, level = 4, maxric = 8, curr = 0, wallBuild = 0;
+bool rclicking = 0, shot = 0, showMenu = 0, mainMenu = 0, targetPlace = 0, saving = 0;
+
+Font font;
+std::string levelname;
+Text leveltext;
 
 std::vector<VertexArray> walls;
 std::vector<RectangleShape> enemies;
@@ -14,21 +20,29 @@ CircleShape pivot, gun;
 RectangleShape enemy(Vector2f(10.f,20.f));
 VertexArray newWall(LinesStrip,2);
 
-Texture buildText, placeText, backText, delWalltext, delTargettext;
-Sprite buildwall, placeTarget, goBack, delWall, delTarget;
+Texture buildText, placeText, backText, delWalltext, delTargettext, saveText;
+Sprite buildwall, placeTarget, goBack, delWall, delTarget, save;
 
 RenderWindow window(VideoMode(screenx,screeny), "Ricochet", Style::Close);
 
 struct leveld
 {
+    std::string name;
     Vector2f center;
     std::vector<RectangleShape> enemies;
     std::vector<VertexArray> walls;
 };
 
-leveld level1, level2, custom;
+std::vector<leveld> levels;
+std::vector<std::ifstream> levelfiles;
 
 void initLevels(){
+    VertexArray wall(LineStrip,2);
+
+    leveld level1;
+
+    level1.name = "custom";
+
     level1.center = Vector2f(300.f,500.f);
 
     VertexArray leftwall(LineStrip,2);
@@ -40,50 +54,91 @@ void initLevels(){
     topwall[1].position = Vector2f(screenx,0.2f);
 
     VertexArray botwall(LineStrip,2);
-    botwall[0].position = Vector2f(0.1f,screeny-0.1f);
+    botwall[0].position = Vector2f(0.1f,screeny);
     botwall[1].position = Vector2f(screenx,screeny-0.2f);
 
     VertexArray rightwall(LineStrip,2);
     rightwall[0].position = Vector2f(screenx-0.1f,0.1f);
     rightwall[1].position = Vector2f(screenx-0.2f,screeny);
 
-    VertexArray leftarrow(LinesStrip,2);
-    leftarrow[0].position = Vector2f (( screenx/2), 100.f );
-    leftarrow[1].position = Vector2f (( screenx/2 - 100.f), 200.f );
-
-    VertexArray rightarrow(LinesStrip,2);
-    rightarrow[0].position = Vector2f (( screenx/2), 100.f );
-    rightarrow[1].position = Vector2f (( screenx/2 + 100.f), 200.f );
-
-
     level1.walls.push_back(leftwall);
     level1.walls.push_back(rightwall);
     level1.walls.push_back(topwall);
     level1.walls.push_back(botwall);
-
 
     for(unsigned i = 0; i < level1.walls.size(); i++){
         level1.walls[i][0].color = Color::Red;
         level1.walls[i][1].color = Color::Red;
     }
 
-    custom.walls = level1.walls;
-    custom.center = level1.center;
+    levels.push_back(level1);
 
-    level1.walls.push_back(leftarrow);
-    level1.walls.push_back(rightarrow);
+    for(auto &file : fs::directory_iterator("levels"))
+        levelfiles.push_back(std::ifstream(file.path()));
 
-    //enemies
+    for(unsigned i = 0; i < levelfiles.size(); i++){
+        //each level (file)
+        leveld l;
 
-    enemy.setFillColor(Color::Green);
-    enemy.setPosition(100.f,100.f);
+        l.walls = level1.walls;
 
-    level1.enemies.push_back(enemy);
+        std::string in;
+        unsigned mode = 0;
+        unsigned it = 0;
+        while(levelfiles[i] >> in){
+            if(in == "walls"){
+                mode = 1;
+                continue;
+            }            
+            if(in == "targets"){
+                mode = 2;
+                continue;
+            }
+            if(in == "center"){
+                mode = 3;
+                continue;
+            }
+            if(in == "name"){
+                mode = 4;
+                continue;
+            }
 
-    enemy.setPosition(screenx-100.f,100.f);
-    level1.enemies.push_back(enemy);
+            if(mode == 4){
+                l.name = in;
+                mode = 0;
+                continue;
+            }
 
-    enemy.setOrigin(5.f,10.f);
+            std::stringstream ss(in);
+
+            float first,second;
+            char comma;
+
+            ss >> first >> comma >> second;
+            Vector2f pt(first,second);
+
+            if(mode == 1){
+                wall[it].position = pt;
+                
+                if(it)
+                    l.walls.push_back(wall);
+
+                it = !it;
+                continue;
+            }
+            if(mode == 2){
+                enemy.setPosition(pt);
+                l.enemies.push_back(enemy);
+                continue;
+            }
+            if(mode == 3){
+                l.center = pt;
+            }            
+        }
+        levels.push_back(l);
+
+    }
+
 }
 
 float dist(Vector2f v){
@@ -139,30 +194,31 @@ bool segmentIntersectsRectangle(const sf::FloatRect& rect,
     return true;
 }
 
+void printVector2f(Vector2f v, std::ofstream &out){
+    out << v.x << "," << v.y;
+}
+
 void printVector2f(Vector2f v){
-    std::cout << "("<< v.x << "," << v.y << ")" << std::endl;
+    std::cout << v.x << "," << v.y << std::endl;
+}
+
+float nonzero(float num){
+    if(num < 0.0001f && num > -0.0001f)
+        return 0.0001f;
+    return num;
 }
 
 void load(){
-    switch (level)
-    {
-    case 1:
-        gun.setPosition(level1.center);
-        walls = level1.walls;
-        enemies = level1.enemies;
-        break;
-    case 3:
-        gun.setPosition(custom.center);
-        walls = custom.walls;
-        enemies = custom.enemies;
-        break;    
-    default:
-        break;
-    }
-
+    walls = levels[level].walls;
+    enemies = levels[level].enemies;
+    gun.setPosition(levels[level].center);
+    levelname = levels[level].name;
 }
 
 void init(){ //called once at startup
+    font.loadFromFile("resources/arial.ttf");
+    enemy.setFillColor(Color::Green);
+    enemy.setOrigin(5.f,10.f);
     initLevels();
     load();
     window.setFramerateLimit(fps);
@@ -182,20 +238,31 @@ void init(){ //called once at startup
     backText.loadFromFile("resources/goback.png");
     delTargettext.loadFromFile("resources/delTarget.png");
     delWalltext.loadFromFile("resources/delWall.png");
+    saveText.loadFromFile("resources/save.png");
     
-
     buildwall.setTexture(buildText);
     placeTarget.setTexture(placeText);
     goBack.setTexture(backText);
     delTarget.setTexture(delTargettext);
     delWall.setTexture(delWalltext);
+    save.setTexture(saveText);
 
     goBack.setPosition(Vector2f(25.f,25.f));
     buildwall.setPosition(Vector2f(75.f,25.f));
     placeTarget.setPosition(Vector2f(125.f,25.f));
     delWall.setPosition(Vector2f(175.f,25.f));
-    delTarget.setPosition(Vector2f(225.f,25.f));    
+    delTarget.setPosition(Vector2f(225.f,25.f));
+    save.setPosition(Vector2f(275.f,25.f)); 
 
+    leveltext.setFont(font);
+    leveltext.setCharacterSize(20);
+    leveltext.setFillColor(Color::White);
+    if(!level)
+        leveltext.setPosition(Vector2f(325.f,25.f));
+    else
+        leveltext.setPosition(Vector2f(75.f,25.f));
+
+    leveltext.setString(levelname);
 
 }
 
@@ -230,12 +297,15 @@ void render(){
 
     if(showMenu){
         window.draw(goBack);
-        if(level == 3){
+        if(level == 0){
             window.draw(buildwall);
             window.draw(placeTarget);
             window.draw(delWall);
-            window.draw(delTarget);            
+            window.draw(delTarget);
+            window.draw(save);
+            leveltext.setString(levelname);            
         }
+        window.draw(leveltext);
     }
 
     if(wallBuild == 2){
@@ -253,10 +323,16 @@ void render(){
 }
 
 Vector2f calcIntersectVector(Vector2f a1, Vector2f a2, Vector2f b1, Vector2f b2){
-    float aM = (a2.y-a1.y)/(a2.x-a1.x);
+    float adX = nonzero(a2.x-a1.x);
+    float adY = nonzero(a2.y-a1.y);
+    float bdX = nonzero(b2.x-b1.x);
+    float bdY = nonzero(b2.y-b1.y);
+
+    
+    float aM = (adY)/(adX);
     float aB = a1.y - (aM*a1.x);
 
-    float bM = (b2.y-b1.y)/(b2.x-b1.x);
+    float bM = (bdY)/(bdX);
     float bB = b1.y - (bM*b1.x);
 
     float left = aM-bM;
@@ -268,7 +344,11 @@ Vector2f calcIntersectVector(Vector2f a1, Vector2f a2, Vector2f b1, Vector2f b2)
 }
 
 Vector2f calcPerpIntersect(Vector2f a1, Vector2f b1, Vector2f b2){
-    float bM = (b2.y-b1.y)/(b2.x-b1.x);
+
+    float bdX = nonzero(b2.x-b1.x);
+    float bdY = nonzero(b2.y-b1.y);
+
+    float bM = (bdY)/(bdX);
     
     float pM = -1.f/(bM); //perpendicular slope (sign flipped inverse)
     float pB = a1.y - (pM*a1.x); //y-mx = b
@@ -292,18 +372,31 @@ bool collides (Vector2f a1, Vector2f a2, Vector2f b1, Vector2f b2){
 
     float wall_length = dist(b2-b1);
     
-    bool aneg, bneg;
-    if((a2 - a1).x > 0)
-        aneg = 0;
-    else
-        aneg = 1;
-    
-    if((intersection_vector - a1).x > 0)
-        bneg = 0;
-    else
-        bneg = 1;
+    bool axneg, bxneg, ayneg, byneg;
 
-    return bneg == aneg && furthest < wall_length;
+    if((a2.x - a1.x) > 0.f)
+        axneg = 0;
+    else
+        axneg = 1;
+    
+    if((intersection_vector.x - a1.x) > 0.f)
+        bxneg = 0;
+    else
+        bxneg = 1;
+
+    if(a2.y - a1.y > 0.f)
+        ayneg = 0;
+    else
+        ayneg = 1;
+
+    if((intersection_vector.y - a1.y) > 0.f)
+        byneg = 0;
+    else
+        byneg = 1;
+    
+
+
+    return bxneg == axneg && byneg == ayneg && furthest < wall_length;
 }
 
 unsigned firstCollision (Vector2f a1, Vector2f a2, unsigned prevwall){
@@ -335,7 +428,10 @@ unsigned firstCollision (Vector2f a1, Vector2f a2, unsigned prevwall){
 
 Vector2f newPivot(Vector2f a1, Vector2f ipoint, Vector2f walla, Vector2f wallb){
 
-    float bM = (wallb.y-walla.y)/(wallb.x-walla.x);
+    float wdY = nonzero(wallb.y-walla.y);
+    float wdX = nonzero(wallb.x-walla.x);
+    
+    float bM = (wdY)/(wdX);
     
     float pM = -1.f/(bM); //perpendicular slope (sign flipped inverse)
     float pB = ipoint.y - (pM*ipoint.x); //y-mx = b
@@ -344,7 +440,7 @@ Vector2f newPivot(Vector2f a1, Vector2f ipoint, Vector2f walla, Vector2f wallb){
     
     Vector2f midpoint = calcPerpIntersect(a1, y_int, ipoint);
 
-    return (2.f,2.f) * midpoint - a1;
+    return midpoint + midpoint - a1;
 }
 
 void calcShot(){
@@ -359,10 +455,12 @@ void calcShot(){
         enemies[i].setFillColor(Color::Green);
     }
 
-    unsigned wallhit;
+    unsigned wallhit = 69;
     for(unsigned i = 0; i < maxric; i++){
 
         wallhit = firstCollision(a1,a2,wallhit);
+
+        //std::cout << wallhit << std::endl;
 
         if(wallhit == 69)
             break;
@@ -388,8 +486,36 @@ void calcShot(){
         shots[i] = shot;
 
         a2 = newPivot(a1,collision_v,b1,b2);
+
+        //std::cout << "new piv: ";
+        //printVector2f(a2);
+
+        //std::cout << "collision pt: ";
         a1 = collision_v;
+        //printVector2f(a1);
+
     }
+}
+
+void saveLevel(){
+    std::ofstream out("levels/"+levelname+".txt");
+    out << "name\n" << levelname;
+    out << "\ncenter\n";
+    printVector2f(gun.getPosition(),out);
+    out << "\nwalls\n";
+    for(unsigned i = 4; i < walls.size(); i++){
+        printVector2f(walls[i][0].position,out);
+        out << " ";
+        printVector2f(walls[i][1].position,out);
+        out << std::endl;
+    }
+
+    out << "targets\n";
+    
+    for(unsigned i = 0; i < enemies.size(); i++){
+        printVector2f(enemies[i].getPosition(),out);
+        out << std::endl;
+    }     
 }
 
 int main(){
@@ -437,7 +563,7 @@ int main(){
                             std::cout << "going back" << std::endl;
                         }
 
-                        if(level==3){
+                        if(level==0){
                             if(buildwall.getGlobalBounds().contains(newpos)){
                                 showMenu = 0;
                                 std::cout << "building wall" << std::endl;
@@ -458,7 +584,10 @@ int main(){
                                 if(!enemies.empty())
                                     enemies.pop_back();
                             }
-
+                            if(save.getGlobalBounds().contains(newpos)){
+                                saving = 1;
+                                std::cout << "saving level" << std::endl;                                
+                            }
 
                         }
 
@@ -486,7 +615,17 @@ int main(){
                         if(!mainMenu && !wallBuild && !targetPlace)                        
                             showMenu = !showMenu;
                         
-                        break;                
+                        break;
+                    case Keyboard::BackSpace:
+                        if(saving && !levelname.empty())
+                            levelname.pop_back();
+                        break;
+                    case Keyboard::Enter:
+                        if(saving && !levelname.empty()){
+                            saving = 0;
+                            saveLevel();
+                        }
+                        break;
 
                 }
                
@@ -496,8 +635,15 @@ int main(){
                     rclicking = 0;
                 }
             }
+            if (saving && e.type == sf::Event::TextEntered) {
+                if (std::isprint(e.text.unicode))
+                    levelname += e.text.unicode;
+            }
+
 
         }
+
+
         if(shot){       
             //std::cout << "Frame: " << frame << std::endl;           
             //std::cout << "Curr: " << curr << std::endl;

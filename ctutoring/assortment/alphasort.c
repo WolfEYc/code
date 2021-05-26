@@ -2,11 +2,9 @@
 #include <ctype.h>
 
 int main(){
-
     //declare variables
     char array[26] = {'D', 'H', 'Y', 'Q', 'T', 'E', 'K', 'O', 'C', 'V',
     'N', 'S', 'P', 'Z', 'M', 'R', 'I', 'F', 'U', 'W', 'A', 'G', 'B', 'J', 'X', 'L'};
-
 
     printf("\nOriginal Array:\n");
     for(unsigned i = 0; i < 26; i++){

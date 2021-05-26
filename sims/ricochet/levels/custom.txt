@@ -1,0 +1,8 @@
+name
+custom
+center
+300,500
+walls
+328,284 73,490
+targets
+406,181
