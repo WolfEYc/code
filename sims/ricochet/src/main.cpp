@@ -401,7 +401,7 @@ void calcShot(){
 
 void saveLevel(){
     std::ofstream out("levels/"+levelname+".txt");
-    out << "name\n" << levelname;
+    out << "name\n" << levelname.substr(0,20);
     out << "\ncenter\n";
     printVector2f(gun.getPosition(),out);
     out << "\nwalls\n";
