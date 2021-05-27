@@ -85,6 +85,11 @@ void initLevels(){
         unsigned mode = 0;
         unsigned it = 0;
         while(levelfiles[i] >> in){
+            if(mode == 4){
+                l.name = in;
+                mode = 0;
+                continue;
+            }
             if(in == "walls"){
                 mode = 1;
                 continue;
@@ -102,11 +107,7 @@ void initLevels(){
                 continue;
             }
 
-            if(mode == 4){
-                l.name = in;
-                mode = 0;
-                continue;
-            }
+            
 
             std::stringstream ss(in);
 
@@ -168,7 +169,7 @@ void initLevels(){
         levelselector.push_back(levelrect);
     }
 
-    botmenu += 600 - y*100;    
+    botmenu = 600 - y*100 + 200;    
 
 }
 
@@ -457,10 +458,12 @@ int main(){
             }
 
             if(e.type == Event::MouseButtonPressed){ // do shooty stuff
+                Vector2i windowoffset = window.getPosition();
+                windowoffset.y+=30;
+                Vector2f newpos = window.mapPixelToCoords((Mouse::getPosition()-windowoffset));
+                
                 if(Mouse::isButtonPressed(Mouse::Left)){
-                    Vector2i windowoffset = window.getPosition();
-                    windowoffset.y+=30;
-                    Vector2f newpos = Vector2f(Mouse::getPosition()-windowoffset);
+                    
 
                     if(mainMenu){
                         for(unsigned i = 0; i < levelselector.size(); i++){
@@ -471,12 +474,8 @@ int main(){
                                 view = window.getDefaultView();
                                 window.setView(view);
                                 mainMenu = 0;
-
                             }
-
                         }
-
-
                     }else
                     if(targetPlace){
                         enemy.setPosition(newpos);
@@ -539,7 +538,9 @@ int main(){
                         pivot.setPosition(Vector2f(Mouse::getPosition()-windowoffset)); 
                 }
                 if(Mouse::isButtonPressed(Mouse::Right)){
-                    rclicking = 1;
+                    if(showMenu && level == 0){
+                        gun.setPosition(newpos);
+                    }
                 }
             }
             if(e.type == Event::KeyPressed){
