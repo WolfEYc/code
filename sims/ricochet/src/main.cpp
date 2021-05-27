@@ -430,14 +430,12 @@ void saveLevel(){
 }
 
 int main(){
-
     init();
     
     while(window.isOpen()){
 
         Event e;
         while(window.pollEvent(e)){
-
             if (e.type == Event::Closed)
                 window.close();
 
@@ -456,15 +454,12 @@ int main(){
                     }
                 }
             }
-
             if(e.type == Event::MouseButtonPressed){ // do shooty stuff
                 Vector2i windowoffset = window.getPosition();
                 windowoffset.y+=30;
                 Vector2f newpos = window.mapPixelToCoords((Mouse::getPosition()-windowoffset));
                 
                 if(Mouse::isButtonPressed(Mouse::Left)){
-                    
-
                     if(mainMenu){
                         for(unsigned i = 0; i < levelselector.size(); i++){
                             if(levelselector[i].getGlobalBounds().contains(newpos)){
@@ -500,36 +495,36 @@ int main(){
                     if(showMenu){
                         if(goBack.getGlobalBounds().contains(newpos)){
                             mainMenu = 1;
-                            std::cout << "going back" << std::endl;
+                            //std::cout << "going back" << std::endl;
                         }
                         if(level==0){
                             if(buildwall.getGlobalBounds().contains(newpos)){
                                 showMenu = 0;
-                                std::cout << "building wall" << std::endl;
+                                //std::cout << "building wall" << std::endl;
                                 wallBuild = 1;
                             }
                             if(placeTarget.getGlobalBounds().contains(newpos)){
                                 showMenu = 0;                                
-                                std::cout << "placing target" << std::endl;
+                                //std::cout << "placing target" << std::endl;
                                 targetPlace = 1;
                             }
                             if(delWall.getGlobalBounds().contains(newpos)){                                                             
-                                std::cout << "deleting wall" << std::endl;
+                                //std::cout << "deleting wall" << std::endl;
                                 if(walls.size()>4)
                                     walls.pop_back();
                             }
                             if(delTarget.getGlobalBounds().contains(newpos)){                                                             
-                                std::cout << "deleting Target" << std::endl;
+                                //std::cout << "deleting Target" << std::endl;
                                 if(!enemies.empty())
                                     enemies.pop_back();
                             }
                             if(save.getGlobalBounds().contains(newpos)){
                                 saveLevel();
-                                std::cout << "saving level" << std::endl;                                
+                                //std::cout << "saving level" << std::endl;                                
                             }
                             if(leveltext.getGlobalBounds().contains(newpos)){
                                 editlevelname = 1;
-                                std::cout << "editing level" << std::endl;
+                                //std::cout << "editing level" << std::endl;
                             }
                         }
                     }else //cant change pivot if menu is open
