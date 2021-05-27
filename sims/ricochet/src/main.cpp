@@ -9,7 +9,7 @@ namespace fs = std::experimental::filesystem;
 
 Clock c;
 
-unsigned screenx = 600, screeny = 600, fps = 24, level = 0, maxric = 8, curr = 0, wallBuild = 0;
+unsigned screenx = 600, screeny = 600, fps = 24, level = 0, maxric = 8, curr = 0, wallBuild = 0, botmenu = 0;
 bool rclicking = 0, shot = 0, showMenu = 0, mainMenu = 1, targetPlace = 0, editlevelname = 0;
 
 Font font;
@@ -166,8 +166,9 @@ void initLevels(){
 
         levelrect.setPosition(Vector2f(x*175+50.f,y*100+250.f));
         levelselector.push_back(levelrect);
-
     }
+
+    botmenu += 600 - y*100;    
 
 }
 
@@ -417,7 +418,14 @@ void saveLevel(){
     for(unsigned i = 0; i < enemies.size(); i++){
         printVector2f(enemies[i].getPosition(),out);
         out << std::endl;
-    }     
+    }
+
+    levels.clear();
+    levelselector.clear();
+    levelfiles.clear();
+    selectorText.clear();
+
+    initLevels();
 }
 
 int main(){
@@ -440,7 +448,7 @@ int main(){
                             viewcenter.y-=20;
                             view.setCenter(viewcenter);
                         }
-                    }else{
+                    }else if(view.getCenter().y<botmenu+300.f){
                         Vector2f viewcenter = view.getCenter();
                         viewcenter.y+=20;
                         view.setCenter(viewcenter);
@@ -491,12 +499,10 @@ int main(){
                         }
                     }else
                     if(showMenu){
-                        
                         if(goBack.getGlobalBounds().contains(newpos)){
                             mainMenu = 1;
                             std::cout << "going back" << std::endl;
                         }
-
                         if(level==0){
                             if(buildwall.getGlobalBounds().contains(newpos)){
                                 showMenu = 0;
@@ -525,22 +531,16 @@ int main(){
                             if(leveltext.getGlobalBounds().contains(newpos)){
                                 editlevelname = 1;
                                 std::cout << "editing level" << std::endl;
-
                             }
-
                         }
-
                     }else //cant change pivot if menu is open
                     if(abs(newpos.x-gun.getPosition().x) > 0.12f && abs(newpos.y-gun.getPosition().y) > 0.12f
                         && dist(newpos-gun.getPosition()) > 10.f )
-                        pivot.setPosition(Vector2f(Mouse::getPosition()-windowoffset));
-
-                    
+                        pivot.setPosition(Vector2f(Mouse::getPosition()-windowoffset)); 
                 }
                 if(Mouse::isButtonPressed(Mouse::Right)){
                     rclicking = 1;
                 }
-
             }
             if(e.type == Event::KeyPressed){
                 switch(e.key.code){
@@ -562,9 +562,7 @@ int main(){
                     case Keyboard::Enter:
                         editlevelname = 0;
                         break;
-
                 }
-               
             }
             if(e.type == Event::MouseButtonReleased){
                 if(!Mouse::isButtonPressed(Mouse::Right)){
@@ -575,30 +573,15 @@ int main(){
                 if (std::isprint(e.text.unicode) && e.text.unicode!=' ')
                     levelname += e.text.unicode;
             }
-
-
         }
-
-
-        if(shot){       
-            //std::cout << "Frame: " << frame << std::endl;           
-            //std::cout << "Curr: " << curr << std::endl;
-  
+        if(shot){
             curr++;
             if(curr == maxric){
                 shot = 0;
                 curr = 0;
             }  
         }
- 
-
-        
-
-
         render();
-
     }
-
-
-
+    return 0;
 }
