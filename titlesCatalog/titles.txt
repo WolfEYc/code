@@ -1,0 +1,77 @@
+P-222-222-222
+IEEE Transactions on Computers
+IEEE Press
+1980
+1
+8
+9
+B-222-111-111
+Programming and Data Structures in Java
+McGraw Hill
+2016
+5
+Brian Lang
+9878879310
+B-222-111-000
+Engineering Your Future
+Oxford
+2020
+2
+William Oakes, Lee Leone
+0190279265
+B-222-111-110
+Society, Ethics, and Technology
+Pearson
+2016
+10
+Morton Winston and Ralph Edelbach
+1133943551
+B-222-111-101
+Systems Engineering and Analysis
+Prentice Hall
+2010
+2
+Scott Fogler and Steven LeBlanc
+0132217250
+P-000-111-111
+IEEE Transactions on Affective Computing
+IEEE
+2020
+1
+2
+6
+P-111-000-110
+IEEE Annals of History of Computing
+IEEE
+2020
+1
+10
+12
+B-000-000-111
+Introduction to C language
+Pearson
+2018
+5
+J. Smith
+1103324551
+P-111-111-111
+IEEE Spectrum
+IEEE
+1975
+1
+5
+3
+B-333-333-333
+Data Science
+McGraw Hill
+2018
+5
+F. Franklin
+1122334455
+B-999-999-999
+Jungle Roaming
+National Geographic
+2013
+100
+Joe Rogan
+0132217250

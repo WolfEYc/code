@@ -20,12 +20,11 @@ private:
     char value;
     Node * right;
     Node * left;
-    Node * parent;
     
 public:
     Node (char value)
     {
-        this->right = this->left = this->parent = nullptr;
+        this->right = this->left = nullptr;
         this->value = value;
     }
     // setters
@@ -39,10 +38,7 @@ public:
         this->left = left;
         
     }
-    void setParent(Node * parent)
-    {
-        this->parent = parent;
-    }
+    
     //gettters
     Node *getRight()
     {
@@ -52,10 +48,7 @@ public:
     {
         return this->left;
     }
-    Node *getParent()
-    {
-        return  this->parent;
-    }
+    
     char getValue()
     {
         return this->value;
@@ -70,11 +63,9 @@ private:
     Node * root;
     
 public:
-    ParseTree(string expression);   
+    ParseTree(string expression); 
     
     ~ParseTree();
-    
-    bool isOperand(char letter);
     
     string preOrder();
     string preOrder(Node* node);
@@ -87,6 +78,7 @@ public:
     
     
     void parseInOrder(string input);
+    void generateTree(string postfix);
     
 };
 
