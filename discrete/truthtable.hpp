@@ -2,7 +2,7 @@
 using namespace std;
 
 struct Node{
-    char data;
+    char data = '\0';
     Node* left = nullptr;
     Node* right = nullptr;
     Node(char data){
@@ -12,16 +12,20 @@ struct Node{
 
 class truthtable{
 private:
+    string postfix;
     string expression;
     string labels;
     vector<vector<bool>> table;
     unsigned it;
     Node* root;    
 public:
-    truthtable(string expression);
+    truthtable();
+    truthtable(string exp);
+    void buildTable();
     ~truthtable();
     void clear();
     static void clear(Node* node);
+    void setExpression(string expression);
     void generateTree();    
     void display();
     bool isValid();

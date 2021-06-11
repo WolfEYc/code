@@ -1,0 +1,8 @@
+[] grouping symbol						HIGH PRECIDENCE
+- not											|
+^ and											|
+* xor											|
++ or											|
+> if (left side) then (right side)				V
+= equals								LOW PRECIDENCE
+

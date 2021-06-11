@@ -1,7 +1,5 @@
 #include "truthtable.hpp"
 
-
-
 void truthtable::clear(Node* node){
     if(node == nullptr)
         return;
@@ -22,7 +20,7 @@ bool areBracketsBalanced(string expr)
     char x;
  
     // Traversing the Expression
-    for (int i = 0; i < expr.length(); i++)
+    for (unsigned i = 0; i < expr.length(); i++)
     {
         if (expr[i] == '(' || expr[i] == '['
             || expr[i] == '{')
@@ -72,22 +70,22 @@ bool areBracketsBalanced(string expr)
     return (s.empty());
 }
 
-int preConversion(char c){
-    switch (c){
-        case '!':
-            return 0;
+int prec(char c){
+    switch (c){ 
+        case '-':
+            return 5;      
         case '^':
-            return 1;                    
-        case 'x':
-            return 2;
-        case 'v':
+            return 4;                    
+        case '*':
             return 3;
+        case '+':
+            return 2;
         case '>':
-            return 4;
+            return 1;
         case '=':
-            return 5;
-
+            return 0;
     }
+    return -1;
 }
 
 bool isOperand(char c){
@@ -96,32 +94,28 @@ bool isOperand(char c){
 
 bool isOperator(char c){
     switch(c){
-        case '^':
-        case 'v':       
+        case '^':               
         case '>':
-        case 'x':
-        case '!':
+        case '+':
+        case '*':
         case '=':
+        case '-':
             return 1;
     }
     return 0;
 }
 
 bool isParenthesis(char c){
-    return c == '(' || c == ')';
-}
-
-bool higherPrec(char a, char b){
-    return preConversion(a) <= preConversion(b);
+    return c == '[' || c == ']';
 }
 
 bool validChar(char c){
-    return isOperator(c) || isOperand(c) || isParenthesis(c);
+    return isOperator(c) || isOperand(c) || isParenthesis(c) || c == '-';
 }
 
 string inToPost(string input)
 {
-    stack<char> theStack;
+    stack<char> st;
     string buffer = "";
     char next;
 
@@ -129,44 +123,29 @@ string inToPost(string input)
         next = input[i];
 
         if(isOperand(next))
-            buffer+=next;
-        else if (next == '(')
-            theStack.push(next);
-        else if (next == ')'){
-            bool isPopping = 1;
-            while(!theStack.empty() and isPopping){
-                char value = theStack.top();
-                theStack.pop();
-                if(value == '(')
-                    isPopping = 0;
-                else
-                    buffer+=value;
+            buffer += next;
+        else if (next == '[')
+            st.push('[');
+        else if (next == ']'){
+            while(!st.empty() && st.top() != '[')
+            {                  
+                buffer += st.top();
+                st.pop();
             }
+            st.pop();
+        }else{
+            while(!st.empty() && prec(input[i]) < prec(st.top())) {                
+                buffer += st.top();
+                st.pop();
+            }
+            st.push(next);
         }
-        else if (isOperator(next)){
-            bool isPopping = 1;
-            while(!theStack.empty() and isPopping){
-                char value = theStack.top();
-                theStack.pop();
-                if(value == '('){
-                    theStack.push(value);
-                    isPopping = 0;
-                }
-                else{
-                    if(!higherPrec(value,next)){
-                        theStack.push(value);
-                        isPopping = 0;                        
-                    }else
-                        buffer+=value;
-                }
-            }
-            theStack.push(next);
-        }         
+                
     }
 
-    while(!theStack.empty()){
-        buffer += theStack.top();
-        theStack.pop();
+    while(!st.empty()){
+        buffer += st.top();
+        st.pop();
     }
 
     return buffer;
@@ -177,10 +156,10 @@ void truthtable::generateTree(){
 
     clear(root);
     stack<Node*> theStack;
-    for (size_t i = 0; i < expression.length(); i++)
+    for (size_t i = 0; i < postfix.length(); i++)
     {       
         
-        char letter = expression[i];
+        char letter = postfix[i];
         
         if (isOperand(letter)){
             theStack.push(new Node(letter));
@@ -192,7 +171,7 @@ void truthtable::generateTree(){
             temp->right = theStack.top();
             theStack.pop();
 
-            if(letter != '!'){
+            if(letter != '-'){
                 temp->left = theStack.top();
                 theStack.pop();
             }
@@ -206,9 +185,7 @@ void truthtable::generateTree(){
         root = theStack.top();
 }
 
-truthtable::truthtable(string expression){
-    this->expression = expression;
-
+void truthtable::buildTable(){
     labels = "";
     for(char c : expression)
         if(isOperand(c) && labels.find(c) == string::npos)
@@ -224,14 +201,23 @@ truthtable::truthtable(string expression){
         for(unsigned b = 0; b < size; b++){
             if(!(b % flip))
                 mine = !mine;  
-            table[l][b] = mine;
+            table[table.size() - 2 - l][b] = mine;
         }        
-    }
-        
-
+    }    
+    
     generateTree();
 
+    for(it = 0; it < size; it++)
+        table[table.size()-1][it] = evaluateTree(root);
+}
 
+truthtable::truthtable(){};
+
+void truthtable::setExpression(string expression){this->expression = expression, this->postfix = inToPost(expression);}
+
+truthtable::truthtable(string exp){
+    this->expression = exp;
+    this->postfix = inToPost(exp);
 }
 
 truthtable::~truthtable(){
@@ -245,26 +231,28 @@ bool truthtable::isValid(){
     for(char c : expression)
         if(!validChar(c))
             return 0;
+
+    return 1;
         
 }
 
 bool truthtable::evaluateTree(Node* node){
-    if(node != nullptr || node->data == NULL)
+    if(node == nullptr || node->data == '\0')
         throw exception();
 
     if(isOperand(node->data))
         return valueOf(node->data);
 
-    if(node->data == '!')
+    if(node->data == '-')
         return !evaluateTree(node->right);
 
     if(isOperator(node->data)){
         switch(node->data){
             case '^':
                 return evaluateTree(node->left) and evaluateTree(node->right);
-            case 'v':
+            case '+':
                 return evaluateTree(node->left) or evaluateTree(node->right);
-            case 'x':
+            case '*':
                 return evaluateTree(node->left) xor evaluateTree(node->right);
             case '>':
                 if(evaluateTree(node->left))
@@ -277,5 +265,25 @@ bool truthtable::evaluateTree(Node* node){
 
     //should have returned at some point!!!
     throw exception();
+    
+}
+
+void truthtable::display(){
+    //print lables
+    cout << endl;
+
+    for(char c : labels)
+        cout << c << " ";
+    cout << expression << endl;
+
+    for(unsigned row = 0; row < table[0].size(); row++){
+        for(unsigned col = 0; col < table.size(); col++){
+            cout << table[col][row] << " ";
+        }
+        cout << endl;
+    }
+
+    cout << endl;
+    
     
 }
