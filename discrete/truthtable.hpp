@@ -12,23 +12,22 @@ struct Node{
 
 class truthtable{
 private:
-    string postfix;
-    string expression;
+    vector<string> p_expressions;
+    vector<string> expressions;
     string labels;
     vector<vector<bool>> table;
     unsigned it;
-    Node* root;    
+    vector<Node*> roots;    
 public:
-    truthtable();
-    truthtable(string exp);
+    truthtable();    
     void buildTable();
     ~truthtable();
     void clear();
     static void clear(Node* node);
-    void setExpression(string expression);
-    void generateTree();    
+    void addExpression(string expression);
+    void generateTree(unsigned exp);    
     void display();
-    bool isValid();
+    bool isValid(unsigned exp);
     bool evaluateTree(Node* node);
     bool valueOf(char c);
 };

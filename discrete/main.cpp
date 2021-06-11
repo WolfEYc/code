@@ -2,18 +2,14 @@
 
 int main(int argc, char** argv){
 
-    static truthtable* tables = new truthtable[argc-1];
+    truthtable table;
 
     for(int i = 1; i < argc; i++){
-        tables[i-1].setExpression(argv[i]);
+        table.addExpression(argv[i]);
     }
 
-    for(int i = 0; i < argc - 1; i++){
-        tables[i].buildTable();
-        tables[i].display();
-    }
-
-    delete[] tables;
+    table.buildTable();
+    table.display();
 
     return 0;
 }

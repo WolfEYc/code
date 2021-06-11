@@ -152,14 +152,14 @@ string inToPost(string input)
 
 }
 
-void truthtable::generateTree(){
+void truthtable::generateTree(unsigned exp){
 
-    clear(root);
+    clear(roots[exp]);
     stack<Node*> theStack;
-    for (size_t i = 0; i < postfix.length(); i++)
+    for (size_t i = 0; i < p_expressions[exp].length(); i++)
     {       
         
-        char letter = postfix[i];
+        char letter = p_expressions[exp][i];
         
         if (isOperand(letter)){
             theStack.push(new Node(letter));
@@ -182,53 +182,62 @@ void truthtable::generateTree(){
         
     }
     if(!theStack.empty())
-        root = theStack.top();
+        roots[exp] = theStack.top();
 }
 
 void truthtable::buildTable(){
     labels = "";
-    for(char c : expression)
-        if(isOperand(c) && labels.find(c) == string::npos)
-            labels+=c;
+
+    for(string expression : expressions)
+        for(char c : expression)
+            if(isOperand(c) && labels.find(c) == string::npos)
+                labels+=c;
+
+    sort(labels.begin(), labels.end());
     
     unsigned size = 1 << labels.length();     
 
-    table = vector<vector<bool>> (labels.length() + 1, vector<bool>(size));
-
-    for(unsigned l = 0; l < table.size() - 1; l++){
+    table = vector<vector<bool>> (labels.length() + expressions.size(), vector<bool>(size));
+    roots = vector<Node*>(expressions.size());
+    
+    for(unsigned l = 0; l < labels.length(); l++){
         bool mine = 0;
         unsigned flip = (1 << l);      
         for(unsigned b = 0; b < size; b++){
             if(!(b % flip))
                 mine = !mine;  
-            table[table.size() - 2 - l][b] = mine;
+            table[labels.length() - l - 1][b] = mine;
         }        
     }    
     
-    generateTree();
+    //cout << roots.size();
 
-    for(it = 0; it < size; it++)
-        table[table.size()-1][it] = evaluateTree(root);
+    for(unsigned exp = 0; exp < expressions.size(); exp++){
+        generateTree(exp);
+        for(it = 0; it < size; it++){
+            table[exp+labels.size()][it] = evaluateTree(roots[exp]);
+        }
+    }
+    
 }
 
 truthtable::truthtable(){};
 
-void truthtable::setExpression(string expression){this->expression = expression, this->postfix = inToPost(expression);}
-
-truthtable::truthtable(string exp){
-    this->expression = exp;
-    this->postfix = inToPost(exp);
+void truthtable::addExpression(string expression){
+    expressions.push_back(expression);
+    p_expressions.push_back(inToPost(expression));    
 }
 
 truthtable::~truthtable(){
-    clear(root);
+    for(Node* &root: roots)
+        clear(root);
 }
 
-bool truthtable::isValid(){
-    if(!areBracketsBalanced(expression))
+bool truthtable::isValid(unsigned i){
+    if(!areBracketsBalanced(expressions[i]))
         return 0;
     
-    for(char c : expression)
+    for(char c : expressions[i])
         if(!validChar(c))
             return 0;
 
@@ -274,11 +283,20 @@ void truthtable::display(){
 
     for(char c : labels)
         cout << c << " ";
-    cout << expression << endl;
+
+    for(string expression : expressions)
+        cout << expression << " ";
+
+    cout << endl;
 
     for(unsigned row = 0; row < table[0].size(); row++){
-        for(unsigned col = 0; col < table.size(); col++){
+        for(unsigned col = 0; col < table.size(); ++col){
             cout << table[col][row] << " ";
+            if(col >= labels.length() - 1 && col < table.size() - 1){
+                for(unsigned i = 0; i < expressions[col-labels.length() + 1].length() - 2; i++){
+                    cout << " ";
+                }
+            }
         }
         cout << endl;
     }
