@@ -292,11 +292,11 @@ void truthtable::display(){
     for(unsigned row = 0; row < table[0].size(); row++){
         for(unsigned col = 0; col < table.size(); ++col){
             cout << table[col][row] << " ";
-            if(col >= labels.length() - 1 && col < table.size() - 1){
-                for(unsigned i = 0; i < expressions[col-labels.length() + 1].length() - 2; i++){
-                    cout << " ";
-                }
-            }
+
+            if(col >= labels.length())
+                for(unsigned i = 0; i < expressions[col-labels.length()].length() - 1; i++)
+                    cout << " ";               
+            
         }
         cout << endl;
     }
