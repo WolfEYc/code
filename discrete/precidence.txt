@@ -3,6 +3,6 @@
 ^ and											|
 * xor											|
 + or											|
-> if (left side) then (right side)				V
+? if (left side) then (right side)				V
 = equals								LOW PRECIDENCE
 

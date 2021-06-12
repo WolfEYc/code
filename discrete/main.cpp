@@ -10,6 +10,7 @@ int main(int argc, char** argv){
 
     table.buildTable();
     table.display();
+    table.write();
 
     return 0;
 }

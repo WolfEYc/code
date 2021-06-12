@@ -300,8 +300,33 @@ void truthtable::display(){
         }
         cout << endl;
     }
-
     cout << endl;
-    
-    
+}
+
+void truthtable::write(){
+    string filename, out = "";
+    cout << "Filename: ";
+    cin >> filename;
+    filename += ".csv";
+
+    ofstream outfile(filename);
+
+    for(char c : labels)
+        out = out + c + ',';
+
+    for(string exp : expressions)
+        out += exp + ',';
+
+    out.pop_back();
+
+    out += '\n';
+
+    for(unsigned r = 0; r < table[0].size(); r++){
+        for(unsigned c = 0; c < table.size(); c++){
+            out += to_string(table[c][r]) + ',';
+        }
+        out.pop_back();
+        out += '\n';
+    }
+    outfile << out;
 }

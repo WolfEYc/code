@@ -27,7 +27,8 @@ public:
     void addExpression(string expression);
     void generateTree(unsigned exp);    
     void display();
+    void write();
     bool isValid(unsigned exp);
     bool evaluateTree(Node* node);
-    bool valueOf(char c);
+    bool valueOf(char c);    
 };
