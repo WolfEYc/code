@@ -80,7 +80,7 @@ int prec(char c){
             return 3;
         case '+':
             return 2;
-        case '>':
+        case '?':
             return 1;
         case '=':
             return 0;
@@ -89,13 +89,13 @@ int prec(char c){
 }
 
 bool isOperand(char c){
-    return (60 <= int(c) && int(c) <= 90) || (97 <= int(c) && int(c) <= 122);
+    return (65 <= int(c) && int(c) <= 90) || (97 <= int(c) && int(c) <= 122);
 }
 
 bool isOperator(char c){
     switch(c){
         case '^':               
-        case '>':
+        case '?':
         case '+':
         case '*':
         case '=':
@@ -263,7 +263,7 @@ bool truthtable::evaluateTree(Node* node){
                 return evaluateTree(node->left) or evaluateTree(node->right);
             case '*':
                 return evaluateTree(node->left) xor evaluateTree(node->right);
-            case '>':
+            case '?':
                 if(evaluateTree(node->left))
                     return evaluateTree(node->right);
                 return 1;
