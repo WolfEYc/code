@@ -1,74 +1,50 @@
-#include "wire.hpp"
-#include "gate.hpp"
+#include "SFML/Graphics.hpp"
+#include <bits/stdc++.h>
+using namespace std;
+using namespace sf;
 
+using gateinfo = pair<unsigned,unsigned>;
+using grid = vector<vector<unsigned>>;
+using pulse = tuple<Vector2u,Vector2u,bool>;
 
-class cells{
+class Cells{
 private:
+    queue<pulse> pulses;
+    grid charge;
+    grid zerogrid;
+    grid cells;
     unsigned size;
-    map<Vector2u, cell*> cellmap;
 public:
-    cells(unsigned cellsize) : size(cellsize){};
-
-    void add(Vector2u pos, String type){
-
-        if(type == "lever"){
-
-        }            
-        else if (type == "wire"){
-            cellmap[pos] = new wire(size, pos);
-        }else
-            cellmap[pos] = new gate(size, pos, type);
-        }
-        
-            
-        
-
-        for(Vector2u signal : c->out){
-            if(cellmap.find(c->pos)->second->type == "gate" && signal.x != c->pos.x - 1){
-                ((gate*) (cellmap.find(c->pos)->second))->num_inputs++;
-            }  
-        }
-    }
-
-    void pulse(){
-        vector<unsigned> times_visited(cellmap.size(),0);
-        queue<Vector2u> open;
-
-
-
-    }
-
-    void pulse(cell* &c){
-
-
-        
-        for(Vector2u signal : c->out){
-
-            if(cellmap.find(signal) == cellmap.end())
-                continue;
-
-            cell*& into = cellmap[signal];
-
-            if(into->type == "wire" && !into->charge){
-                into->charge = 1;
-                pulse(into,nextPulses);
-                continue;
-            }
-            
-            if(into->type == "gate" && signal.x != c->pos.x - 1){
-                ((gate*)(into))->on_inputs++;
-                ((gate*)(into))->setCharge();
-                nextPulses[into->pos] = into;                
-                continue;
-            }
-
-
-
-
-        }
-
-
-    }
-
-
+    Cells(unsigned sx, unsigned sy, unsigned cellsize);
+    void modify(Vector2u pos);
+    void toggleSwitch(Vector2u pos);
+    void pCharge(Vector2u prev,Vector2u pos);
+    void nCharge(Vector2u prev,Vector2u pos);
+    void iterate();
+    void draw(RenderWindow &window);
+    bool isSwitch(Vector2u pos);
+    bool isGate(Vector2u pos);
+    bool transmittable(Vector2u pos);
+    vector<Vector2u> getInputs(Vector2u pos);
+    vector<Vector2u> getOutputs(Vector2u prev, Vector2u pos);
+    Vector2u convertCoord(Vector2u pos);
+    gateinfo getGateInfo(Vector2u pos);
+    void pulseGate(Vector2u pos);
+    void pulseWire(Vector2u pos);  
+    void pulseWire(Vector2u prev, Vector2u pos, bool charge);
+    bool inputtable(Vector2u pos);
+    unsigned getCharge(Vector2u pos);
+    unsigned getValue(Vector2u pos);
 };
+
+/* 
+    negative is off, pos is on
+
+    0 = empty (black)
+    1 = wire (red)
+    2 = not (green)
+    3 = and (purple)
+    4 = equals (blue)
+    5 = lever (white)
+*/
+

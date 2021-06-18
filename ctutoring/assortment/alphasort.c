@@ -7,13 +7,13 @@ int main(){
     'N', 'S', 'P', 'Z', 'M', 'R', 'I', 'F', 'U', 'W', 'A', 'G', 'B', 'J', 'X', 'L'};
 
     printf("\nOriginal Array:\n");
-    for(unsigned i = 0; i < 26; i++){
+    for(int i = 0; i < 26; i++){
         printf(" %c",array[i]);
     }
 
     //sorts in ascending order
-    for(unsigned i = 0; i < 26 - 1; i++){
-        for(unsigned j = 0; j < 26 - i - 1; j++){
+    for(int i = 0; i < 26 - 1; i++){
+        for(int j = 0; j < 26 - i - 1; j++){
             if(array[j] > array[j+1]){
                 int temp = array[j];
                 array[j] = array[j+1];
@@ -23,12 +23,12 @@ int main(){
     }
 
     //puts in lowercase
-    for(unsigned i = 0; i < 26; i++){
+    for(int i = 0; i < 26; i++){
         array[i] = tolower(array[i]);
     }
 
     printf("\n\nSorted Lowercase Array:\n");
-    for(unsigned i = 0; i < 26; i++){
+    for(int i = 0; i < 26; i++){
         printf(" %c",array[i]);
     }
 

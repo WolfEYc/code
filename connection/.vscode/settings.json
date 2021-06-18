@@ -6,6 +6,8 @@
         "initializer_list": "cpp",
         "utility": "cpp",
         "valarray": "cpp",
-        "*.inc": "cpp"
+        "*.inc": "cpp",
+        "tuple": "cpp",
+        "iostream": "cpp"
     }
 }

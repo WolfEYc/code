@@ -98,7 +98,7 @@ int main(){
     triangle2 = triangle;
     triangle3 = triangle;
 
-    triangle.setPosition(100.f,100.f);
+    
     triangle2.setPosition(200.f,200.f);
     triangle3.setPosition(300.f,300.f);
 
