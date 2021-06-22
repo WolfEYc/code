@@ -1,22 +1,27 @@
 #include <iostream>
+using namespace std;
 
 int max(int a, int b){
     return (a > b)? a : b;
 }
 
+
 template <typename k, typename v>
 struct Node{
     k key;
-    v val;
+    v* val;
     int height;
     Node* left;
     Node* right;
-    Node(k key, v val){
+    Node(k key, v*& val){
         this->key = key;
         this->val = val;
         height = 1;
         left = nullptr;
         right = nullptr;
+    }
+    ~Node(){
+        delete val;
     }
 };
 
@@ -24,14 +29,16 @@ template <typename k, typename v>
 class AVLTree{
 private:
     Node<k,v>* root;
+    size_t size;
 protected:
+
     int height(Node<k,v>* node)
     {
         if (node == nullptr) 
             return 0; 
         return node->height; 
     }
-
+    
     int getBalance(Node<k,v> *node) 
     {
         if (node == nullptr) 
@@ -61,7 +68,7 @@ protected:
         Node<k,v>* current = node;
     
         /* loop down to find the leftmost leaf */
-        while (current->left != nullptr) 
+        while (current->right != nullptr) 
             current = current->right; 
     
         return current; 
@@ -101,19 +108,24 @@ protected:
         // Return new root 
         return y; 
     }
-    
-    Node<k,v>* insert(Node<k,v>* node, k key, v val)
+
+    Node<k,v>* insert(Node<k,v>* node, k key, v*& val)
     {
         /* 1. Perform the normal BST rotation */
-        if (node == nullptr) 
+        if (node == nullptr){
+            val = new v;
+            size++;
             return new Node<k,v>(key, val);
+        }
     
         if (key < node->key) 
             node->left = insert(node->left, key, val); 
         else if (key > node->key) 
             node->right = insert(node->right, key, val); 
-        else // Equal keys not allowed 
-            return node; 
+        else{ // Equal keys not allowed
+            val = node->val;
+            return node;
+        }
     
         /* 2. Update height of this ancestor node */
         node->height = 1 + max(height(node->left), height(node->right)); 
@@ -156,8 +168,10 @@ protected:
     {
         
         // STEP 1: PERFORM STANDARD BST DELETE 
-        if (root == nullptr) 
+        if (root == nullptr){
+            size--;
             return root; 
+        }
     
         // If the key to be deleted is smaller 
         // than the root's key, then it lies
@@ -208,7 +222,7 @@ protected:
     
         // If the tree had only one node
         // then return 
-        if (root == NULL) 
+        if (root == NULL)
             return root; 
     
         // STEP 2: UPDATE HEIGHT OF THE CURRENT NODE 
@@ -261,7 +275,7 @@ protected:
         
         if(root != nullptr) 
         { 
-            std::cout << root->key << ": " << root->val << ", "; 
+            std::cout << root->key << ": " << *root->val << ", "; 
             preOrder(root->left); 
             preOrder(root->right); 
         }
@@ -273,39 +287,109 @@ protected:
         if(root != nullptr) 
         {
             inOrder(root->left);
-            std::cout << root->key << ": " << root->val << ", "; 
+            std::cout << root->key << ": " << *root->val << ", "; 
             inOrder(root->right); 
         }
     }
 
+    void clear(Node<k,v>* node){
+        if(node==nullptr)
+            return;        
+        clear(node->left);
+        clear(node->right);
+        delete node;
+    }
+
+    ostream& output(ostream& out, Node<k,v>* root, k maxkey){
+        if(root != nullptr){
+            output(out, root->left, maxkey);
+            if((root->key) == maxkey)
+                out << (root->key) << ": "  << *(root->val);
+            else         
+                out << (root->key) << ": "  << *(root->val) << ", ";
+            output(out, root->right, maxkey);
+        }
+        return out;
+    }
+
 public:
+
     AVLTree(){
         root = nullptr;
+        size = 0;
     }
-    void insert(k key, v val){
-        root = insert(root, key, val);
+
+    ~AVLTree(){
+        clear(root);
     }
-    void remove(k key){
-        root = deleteNode(root, key);
+
+    //inserts node with given value and returns root upon success, returns value of node inserted or duplicate
+    Node<k,v>* insert(k key, v*& val){
+        return root = insert(root, key, val);
     }
+
+    //removes key with given value, otherwise does nothing, returns node removed if successful, nullptr otherwise
+    Node<k,v>* remove(k key){
+        return root = deleteNode(root, key);
+    }
+
+    //finds the node with the given key, nullptr otherwise
     Node<k,v>* find(k key){
-        return find(root,key);
+        return find(root, key);
     }
+
+    //returns the node with the lowest key value
     Node<k,v>* minNode(){
         return minValueNode(root);
     }
+
+    //returns the node with the highest key value
     Node<k,v>* maxNode(){
         return maxValueNode(root);
     }
+
+    Node<k,v>* rootNode(){
+        return root;
+    }
+
+    //only for testing purposes
     void preOrder(){
         std::cout << "{ ";
         preOrder(root);
         std::cout << "}";
     }
+
+    //only for testing purposes
     void inOrder(){
         std::cout << "{ ";
         inOrder(root);
         std::cout << "}";
     }
+
+    ostream& output(ostream& os){
+        if(height()){
+            k maxkey = maxNode()->key;
+            os << "{ ";
+            output(os,root,maxkey);        
+            os << " }";
+        }else{
+            os << "{";
+            os << "}";
+        }
+        return os;
+    }
+
+    int height(){
+        return height(root);
+    }
+
+    size_t size() const{
+        return size;
+    }
+
 };
 
+template <typename k, typename v>
+ostream& operator<<(ostream& os, AVLTree<k,v>& tree){
+    return tree.output(os);
+}
