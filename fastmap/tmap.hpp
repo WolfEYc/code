@@ -8,18 +8,16 @@ private:
     AVLTree<k,v>* trees; 
 protected:
     hash<k> f;
-    int64_t roots;
     int64_t hashf(k key){
         return f(key) % roots;
     }
     v* seed;
-    size_t memory_consumed;
+    size_t roots;
 public:
 
     //create a tmap optimized for "size" elements
     tmap(int64_t size){
-        memory_consumed = 0;
-        roots = size*0.5f;
+        roots = size;
         trees = new AVLTree<k,v>[roots];
         seed = nullptr;
     }
@@ -56,14 +54,6 @@ public:
         if(index >= roots)
             throw new exception;
         return trees[index];
-    }
-
-    size_t calcMemUsage(){
-        size_t sum = 0;
-        for(size_t i = 0; i < roots; i++)
-            sum += trees[i].size();
-
-        return sum * sizeof(AVLTree<k,v>);
     }
 
 };

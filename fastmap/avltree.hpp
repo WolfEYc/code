@@ -29,7 +29,7 @@ template <typename k, typename v>
 class AVLTree{
 private:
     Node<k,v>* root;
-    size_t size;
+    size_t n;
 protected:
 
     int height(Node<k,v>* node)
@@ -114,7 +114,7 @@ protected:
         /* 1. Perform the normal BST rotation */
         if (node == nullptr){
             val = new v;
-            size++;
+            n++;
             return new Node<k,v>(key, val);
         }
     
@@ -169,7 +169,7 @@ protected:
         
         // STEP 1: PERFORM STANDARD BST DELETE 
         if (root == nullptr){
-            size--;
+            n--;
             return root; 
         }
     
@@ -316,7 +316,7 @@ public:
 
     AVLTree(){
         root = nullptr;
-        size = 0;
+        n = 0;
     }
 
     ~AVLTree(){
@@ -384,7 +384,7 @@ public:
     }
 
     size_t size() const{
-        return size;
+        return n;
     }
 
 };

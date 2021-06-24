@@ -36,20 +36,7 @@ void fasterOutput(int64_t fastmap, int64_t normmap){
     }
 }
 
-void fasterOutput(int64_t fastmap, int64_t normmap){
-    if(fastmap > normmap){
-        cout << "normal map speed is ";
-        cout << fastmap - normmap;
-        cout << " ms faster\n";
-    }else{
-        cout << "fast map speed is ";
-        cout << normmap - fastmap;
-        cout << " ms faster\n";
-    }
-}
-
 int main(){
-
     srand(time(NULL));
 
     unsigned tests = 10;
@@ -57,6 +44,7 @@ int main(){
     int64_t ninput_avg = 0;
     int64_t fLk_avg = 0;
     int64_t nLk_avg = 0;
+
 
     size_t elems = 10000000;
     int strlen = 10;
@@ -70,6 +58,7 @@ int main(){
         vector<string> strs(elems);
         vector<int> vals(elems);
 
+        nmap.rehash(elems);
 
         //generate keys
         for(size_t i = 0; i != elems; i++){
@@ -135,19 +124,8 @@ int main(){
         fasterOutput(fmapInputSpeed, nmapInputSpeed);
         cout << "Lookup: ";
         fasterOutput(fmapLkSpeed, nmapLkSpeed);
-        cout << endl
-        << "Space: ";
-
-        size_t nmap_space = 0;
-
-        for(size_t b = 0; b < nmap.bucket_count(); b++){
-            nmap_space += nmap.bucket_size(b) * sizeof(nmap[strs[0]]);
-        }
-
-        size_t fmap_space = fmap.calcMemUsage();
 
         
-
     }
 
     finput_avg/=tests;
@@ -162,6 +140,7 @@ int main(){
     cout << endl
     << "Average Lookup Winner:\n";
     fasterOutput(fLk_avg, nLk_avg);
+    cout << endl;
 
     return 0;
 }
