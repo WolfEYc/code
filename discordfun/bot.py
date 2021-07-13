@@ -114,5 +114,5 @@ async def load(ctx, extension):
 '''
 
 
-bot.run('ODU3NDQzOTc2MTUxMTcxMDcy.YNPq7g.ciMALfDvQe08WYFKlfU-tEwbEVo')
+bot.run('ODU3NDQzOTc2MTUxMTcxMDcy.YNPq7g.v8aNUPlmYDQKXRYbBH8ScIQrzcg')
 
