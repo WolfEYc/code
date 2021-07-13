@@ -60,6 +60,7 @@ void update(){
 }
 
 void render(){
+    window.setView(view);
     view.setCenter(player.getPosition());
     window.clear();
     blocks.draw(window);
