@@ -154,7 +154,7 @@ void render(){
 
 void handlePlace(Vector2i clickpos){
     //Vector2i worldpos = clickpos-windowOffset;
-    Vector2i worldpos = Vector2i(window.mapPixelToCoords(clickpos,view));
+    Vector2i worldpos = Vector2i(window.mapPixelToCoords(clickpos, view));
     
     /*if(zoom < 10){
         worldpos.y+=10;

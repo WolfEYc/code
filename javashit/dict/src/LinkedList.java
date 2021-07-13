@@ -108,6 +108,18 @@ public class LinkedList<E>{
         return (size == 0);
     }
 
+    public int search(E pair){
+        int counter = 0;
+        Node curr = head;
+        while(curr != null){
+            counter++;
+            if(curr.value == pair)
+                return counter;
+            curr = curr.next;
+        }
+        return counter;
+    }
+
     public int size() {
         return size;
     }

@@ -38,8 +38,10 @@ public class Heap<T extends Comparable<T>> {
     public boolean insert(T item){
         int currInd = elements.size();
         elements.add(item);
+        Sort.counter++;
 
         while(currInd > 0){
+            Sort.counter++;
             int parentInd = (currInd-1)/2;
             T curr = elements.get(currInd);
             T parent = elements.get(parentInd);
@@ -55,12 +57,15 @@ public class Heap<T extends Comparable<T>> {
 
     //O(log(n))
     public T delete(){
-            if(isEmpty()) return null;
-            T removedItem = elements.get(0);
-            elements.set(0, elements.get(elements.size()-1));
-            elements.remove(elements.size()-1);
-            int currentIndex = 0;
+        if(isEmpty()) return null;
+        T removedItem = elements.get(0);
+        elements.set(0, elements.get(elements.size()-1));
+        elements.remove(elements.size()-1);
+        int currentIndex = 0;
+        Sort.counter++;
+
         while (currentIndex < elements.size()) {
+            Sort.counter++;
             int left = 2 * currentIndex + 1;
             int right = 2 * currentIndex + 2;
             if (left >= elements.size()) break;//reached the end

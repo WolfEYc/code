@@ -1,26 +1,8 @@
-/*
-public class Item<T extends Comparable<T>> implements Comparable<Item> {
-    private int s;
-    private T t;
-    public T getT() {
-        return t;
-    }
-    @Override
-    public int compareTo(Item o) {
-        return getT().compareTo(o.getT());
-    }
-}
-*/
-public class Pair<E1 extends Comparable<E1>,E2> implements Comparable<E1> {
+import java.lang.Comparable;
+
+public class Pair<E1 extends Comparable<E1>, E2> implements Comparable<Pair<E1, E2>>{
     private E1 first;
     private E2 second;
-    interface Comparable<E1>{
-        int compareTo(E1 obj);
-    }
-    @Override
-    public int compareTo(E1 obj){
-        return getFirst().compareTo(obj);
-    }
     public Pair(E1 first, E2 second) {
         this.first = first;
         this.second = second;
@@ -46,5 +28,10 @@ public class Pair<E1 extends Comparable<E1>,E2> implements Comparable<E1> {
         boolean eq = pair.getFirst().equals(first);
         eq = eq && pair.getSecond().equals(second);
         return eq;
+    }
+
+    @Override
+    public int compareTo(Pair<E1, E2> other) {
+        return this.first.compareTo(other.getFirst());
     }
 }

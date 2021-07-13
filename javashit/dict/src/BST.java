@@ -40,7 +40,7 @@ public class BST<T extends Comparable<T>> {
 
     private int search(node<T> node, T value){
         if(node == null || node.val == value)
-            return 0;
+            return 1;
 
         if(value.compareTo(node.val) > 0)
             return 1 + search(node.right, value);

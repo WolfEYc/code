@@ -2,15 +2,18 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class HashMap<K,V> {
+    private int counter;
     private int size;
-    private double loadFactor;
-    private LinkedList<MapEntry>[] hashTable;
+    private final double loadFactor;
+    private Object[] hashTable;
+
     //Inner class hash Map Entry
     private class MapEntry{
         K key;
         V value;
         MapEntry(K k, V v){
-            key = k; value = v; }
+            key = k; value = v;
+        }
         K getKey(){ return key;}
         V getValue(){return value;}
         public String toString(){
@@ -25,22 +28,19 @@ public class HashMap<K,V> {
         this(c,0.9);
     }
     public HashMap(int c, double lf){
-        hashTable = new LinkedList[trimToPowerOf2(c)];
+        hashTable = new Object[trimToPowerOf2(c)];
         loadFactor=lf;
     }
     //private methods
     private int trimToPowerOf2(int c) {
-        int capacity = c;
-        while (capacity < c)
-            capacity = capacity << 1; // * 2
-        return capacity;
+        return c << 1;
     }
     private int hash(int hashCode){
-        return hashCode & (hashTable.length-1);
+        return Math.abs(hashCode) % hashTable.length;
     }
     private void rehash(){
         ArrayList<MapEntry> list = toList();
-        hashTable = new LinkedList[capacity << 1];
+        hashTable = new Object[trimToPowerOf2(hashTable.length)];
         size = 0;
         for(MapEntry entry: list)
             put(entry.getKey(),entry.getValue());
@@ -53,8 +53,17 @@ public class HashMap<K,V> {
         size=0;
         for(int i=0; i<hashTable.length; i++)
             if (hashTable[i] != null)
-                hashTable[i].clear();
+                ((LinkedList<MapEntry>) (hashTable[i])).clear();
     }
+    public int maxCollisions(){
+        int max = 0;
+        for(int i=0; i<hashTable.length; i++)
+            if (hashTable[i] != null)
+                if( ((LinkedList<MapEntry>) (hashTable[i])).size() > max )
+                    max = ((LinkedList<MapEntry>) (hashTable[i])).size();
+        return max;
+    }
+
     public boolean isEmpty(){
         return (size ==0);
     }
@@ -66,10 +75,12 @@ public class HashMap<K,V> {
     }
     // returns the value of key if found, otherwise null
     public V get(K key){
+        counter = 1;
         int bucketIndex = hash(key.hashCode());
         if(hashTable[bucketIndex] != null){
-            LinkedList<MapEntry> bucket = hashTable[bucketIndex];
+            LinkedList<MapEntry> bucket = (LinkedList<MapEntry>) (hashTable[bucketIndex]);
             for(MapEntry entry: bucket){
+                counter++;
                 if(entry.getKey().equals(key))
                     return entry.getValue();
             }
@@ -80,7 +91,7 @@ public class HashMap<K,V> {
     public void remove(K key){
         int bucketIndex = hash(key.hashCode());
         if (hashTable[bucketIndex] != null){
-            LinkedList<MapEntry> bucket = hashTable[bucketIndex];
+            LinkedList<MapEntry> bucket = (LinkedList<MapEntry>) (hashTable[bucketIndex]);
             for(MapEntry entry: bucket){
                 if(entry.getKey().equals(key)){
                     bucket.remove(entry);
@@ -94,7 +105,7 @@ public class HashMap<K,V> {
     public V put(K key, V value){
         if(get(key) != null ){
             int bucketIndex = hash(key.hashCode());
-            LinkedList<MapEntry> bucket = hashTable[bucketIndex];
+            LinkedList<MapEntry> bucket = (LinkedList<MapEntry>) (hashTable[bucketIndex]);
             for(MapEntry entry: bucket) {
                 if (entry.getKey().equals(key)){
                     V old = entry.getValue();
@@ -107,35 +118,44 @@ public class HashMap<K,V> {
             rehash();
         int bucketIndex = hash(key.hashCode());
         //create a new bucket if bucket is empty
-        if (hashTable[bucketIndex]== null){
+        if (hashTable[bucketIndex] == null){
             hashTable[bucketIndex] = new LinkedList<MapEntry>();
         }
-        hashTable[bucketIndex].add(new MapEntry(key, value));
-        size++; return value;
+        ((LinkedList<MapEntry>) (hashTable[bucketIndex])).add(new MapEntry(key, value));
+        size++;
+        return value;
     }
     //returns the elements of the hash map as a list
     public ArrayList<MapEntry> toList(){
         ArrayList<MapEntry> list = new ArrayList<>();
         for(int i=0; i< hashTable.length; i++){
             if(hashTable[i]!=null){
-                LinkedList<MapEntry>bucket = hashTable[i];
-                for(MapEntry entry: bucket)
-                    list.add(entry);
-            }
-        }return list;
-    }
-    //returns the elements of the hashmap as a string
-    public String toString(){
-        String out = "[";
-        for (int i=0;i<hashTable.length; i++){
-            if(hashTable[i]!=null){
-                for(MapEntry entry: hashTable[i])
-                    out += entry.toString();
-                out += "\n";
+                LinkedList<MapEntry> bucket = (LinkedList<MapEntry>) (hashTable[i]);
+                list.addAll(bucket);
             }
         }
-        out +="]";
-        return out;
+        return list;
+    }
+    public int getCounter(){
+        return counter;
+    }
+
+    public void resetCounter(){
+        counter = 0;
+    }
+
+    //returns the elements of the hashmap as a string
+    public String toString(){
+        StringBuilder out = new StringBuilder("[");
+        for (int i=0;i<hashTable.length; i++){
+            if(hashTable[i] !=null){
+                for(MapEntry entry : (LinkedList<MapEntry>) (hashTable[i]))
+                    out.append(entry.toString());
+                out.append("\n");
+            }
+        }
+        out.append("]");
+        return out.toString();
     }
 }
 

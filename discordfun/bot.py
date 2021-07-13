@@ -1,32 +1,23 @@
+from asyncio import tasks
 import discord
 import time
 from discord.message import Attachment
 import youtube_dl
 from discord import channel
-from discord.ext import commands
-from datetime import datetime
+from discord.ext import commands, tasks
+import datetime
+import scheduler
+
 
 bot = commands.Bot(command_prefix = '.')
 start = 0
 linked_channels = {}
 
-def getDate():
-    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-def timeformat(time):
-    hours = time//3600
-    time -= hours * 3600
-    minutes = time//60
-    time -= minutes*60
-    out = ''
-    if(hours > 0):
-        out += f'{hours} hours '
-    if(minutes > 0):
-        out += f'{minutes} minutes '
-    return out + f'{time} seconds'
+def chop_microseconds(delta):
+    return str(delta - datetime.timedelta(microseconds=delta.microseconds))
 
 def getUptime():
-    return timeformat(int(time.time() - start))
+    return chop_microseconds(datetime.datetime.now() - start)
 
 async def sendMsg(channel, message):
     await channel.send(f'{message.author}: {message.content}')
@@ -34,17 +25,17 @@ async def sendMsg(channel, message):
         await channel.send(attachment)
 
 def strMsg(message):
-    msg = f'{getDate()} : {message.author} : {message.content}'
+    msg = f'{datetime.datetime.now()} : {message.author} : {message.content}'
     for attachment in message.attachments:
         msg += '\n' + str(attachment)
     return msg
 
-
 @bot.event # Readying up
 async def on_ready():
     global start
+    notifs.start()
     print('Bot online.')
-    start = time.time()
+    start = datetime.datetime.now()
 
 @bot.event # Message Logging
 async def on_message(message):
@@ -54,7 +45,7 @@ async def on_message(message):
         if(server in linked_channels and linked_channels[server] == message.channel):
             for serv, channel in linked_channels.items():
                 if(serv != server):
-                    await sendMsg(channel, message)              
+                    await sendMsg(channel, message)        
 
     await bot.process_commands(message)
 
@@ -77,6 +68,27 @@ async def unlink(ctx):
         await ctx.send('chatman is unlinked!')
     else:
         await ctx.send('link me first!')
+
+'''
+@bot.command()
+async def add(ctx, *args):
+    if len(args) != 3:
+        await ctx.send("Enter as name start end\nDate Format: mm-dd hh:mm military time")
+        return
+    name = args[0]
+    s_date = datetime.datetime.strptime(args[1], "%m-%d-%H:%M")
+    e_date = datetime.datetime.strptime(args[2], "%m-%d-%H:%M")
+    schedulebot.add(name, {s_date, e_date})
+    await ctx.send(f'Session added for {name} on {s_date.strftime("%m-%d")} from {s_date.strftime("%H:%M")} to {e_date.strftime("%H:%M")}')
+'''
+
+@tasks.loop(seconds = 5)
+async def notifs():
+    for serv, channel in linked_channels.items():
+        await channel.send('my balls')
+    
+
+
 
 ''' audio support
 @bot.command()
@@ -102,7 +114,5 @@ async def load(ctx, extension):
 '''
 
 
-bot.run('ODU3NDQzOTc2MTUxMTcxMDcy.YNPq7g.HHKbv_yMEXcCvcAwZMJ4_voVE58')
+bot.run('ODU3NDQzOTc2MTUxMTcxMDcy.YNPq7g.ciMALfDvQe08WYFKlfU-tEwbEVo')
 
-
-#die scum

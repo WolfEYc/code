@@ -1,16 +1,17 @@
-
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class Student extends Thread
-{	public int num;
+{
+    public int num;
     private int seatNumber;
     private int rowNumber;
     public int familyMembers;
     public String[] familyNames;
-    public ArrayList<Thread> familyThreads;
+    public static ArrayList<Thread> familyThreads;
     public volatile static AtomicInteger totalFamilyMembers = new AtomicInteger();
     public static int numOfStudentsSeated = 0;
     public static boolean present=false;
@@ -22,28 +23,31 @@ public class Student extends Thread
     public static long time = System.currentTimeMillis();
     public static Random r = new Random();
 
-public Student(int num)
-{
-   setName("Student"+ num);
-   familyMembers = numFamilyMembers();
-   familyNames = getFamilyNames(familyMembers);
-   familyThreads = new ArrayList<Thread>();
-   present=true;
-   start();
-   seated = false;
-   gotDiploma=false;
- }
 
-public void run()
-    {    
+    public Student(int num)
+    {
+        setName("Student"+ num);
+        familyMembers = numFamilyMembers();
+        familyNames = getFamilyNames(familyMembers);
+        familyThreads = new ArrayList<Thread>();
+        present=true;
+        seated = false;
+        gotDiploma=false;
+        start();
+    }
+
+    public void run()
+    {
         try {
             Thread.sleep(5000);
+            Graduation.studentsArriving.acquire();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         msg( " is arriving.");
-		
-         if(present) {
+
+        if(present) {
             Graduation.occupiedSeats.getAndIncrement();
             numOfStudentsSeated++;
             seatNumber = Graduation.occupiedSeats.get();
@@ -52,77 +56,79 @@ public void run()
             else rowNumber = (seatNumber/4)+1;
             seated=true;
             msg( " is seated at seat number "+seatNumber + " and row number "+rowNumber + " and has brought "+ familyMembers + " family members ");
-         }
-         
-         while(numOfStudentsSeated!=13){}
-       		//msg ("Num of student seated: "+ numOfStudentsSeated);
-       		total=totalFamilyMembers.get()+13;
-       		//msg("total family members are: " +total);
-       	if(Graduation.occupiedSeats.get()<44 && Graduation.occupiedSeats.get()<total){
+            Graduation.studentsArriving.release();
+        }
+
+        if(numOfStudentsSeated == Graduation.numStudent) {
+            Graduation.studentsdoneArriving.release();
+        }
+
+        try {
+            Graduation.studentsdoneArriving.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        total=totalFamilyMembers.get()+13;
+        if(Graduation.occupiedSeats.get()<44 && Graduation.occupiedSeats.get()<total){
             for(int i = 0; i< familyMembers; i++){
-                msg(familyNames[i] + " is seated at seat number "+ Graduation.occupiedSeats.incrementAndGet());
+                if(Student.familyThreads!=null)
+                    msg(familyNames[i] + " is seated at seat number "+ Graduation.occupiedSeats.incrementAndGet());
             }
         }
-        msg(" is now filling the form.");
+        msg(" is now fillingMain.familySeated++; the form.");
         while( Graduation.occupiedSeats.get()!=total) {}
-         try {
-             Thread.sleep(8000);
-         } catch (InterruptedException e) {
-             e.printStackTrace();
-         }
 
-         while(Coordinator.signalseat.get() < seatNumber){
+        try {
+            Thread.sleep(8000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-         }
-         
-         if(!gotDiploma){
-          	gotDiploma=true;
-         	msg(" is receiving the diploma now");
-          	Graduation.totalDiplomaDistributed.getAndIncrement();
-             try {
-                 Thread.sleep(200);
-             } catch (InterruptedException e) {
-                 e.printStackTrace();
-             }
-          	msg(" got diploma");
-          	seated = true;
-         }
+        while(Coordinator.signalseat.get() < seatNumber){
 
-         while(!Chairman.ceremonyOver){
+        }
 
-         }
+        if(!gotDiploma){
+            gotDiploma=true;
+            msg(" is receiving the diploma now");
+            Graduation.totalDiplomaDistributed.getAndIncrement();
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            seated = true;
+        }
 
-         for(int i = 0; i < familyMembers; i++){
-             msg(familyNames[i] + "has left");
-             membersReleased.getAndIncrement();
-             try {
-                 Thread.sleep(1000);
-             } catch (InterruptedException e) {
-                 e.printStackTrace();
-             }
-         }
+        while(!Chairman.ceremonyOver){
 
-         while(membersReleased.get() != totalFamilyMembers.get()){}
+        }
 
+        for(int i = 0; i < familyMembers; i++){
+            msg(familyNames[i] + "has left");
+            membersReleased.getAndIncrement();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
-             try {
-                 Thread.sleep(r.nextInt(1000) + 1000);
-             } catch (InterruptedException e) {
-                 e.printStackTrace();
-             }
+        while(membersReleased.get() != totalFamilyMembers.get()){}
 
 
-
-         msg(" has left");
-         studentsReleased.getAndIncrement();
+        try {
+            Thread.sleep(r.nextInt(1000) + 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
 
 
-         // msg("diploma distributed : "+totalDiplomaDistributed);
-
-     //}
- 
- }
+        msg(" has left");
+        studentsReleased.getAndIncrement();
+    }
 
     public static int numFamilyMembers()
     {
@@ -137,7 +143,8 @@ public void run()
         for (int i = 0; i < numFam; i++)
         {
             String name = "family" + i;
-            fam[i] = name;;
+            fam[i] = name;
+            familyThreads.add(this);
             Student.totalFamilyMembers.getAndIncrement();
         }
         return fam;
@@ -150,11 +157,11 @@ public void run()
 
     public void setFamilyThreads(ArrayList<Thread> familyThreads)
     {
-        this.familyThreads = familyThreads;
+        Student.familyThreads = familyThreads;
     }
 
     public ArrayList<Thread> getFamilyThreads()
     {
-        return this.familyThreads;
+        return familyThreads;
     }
 }

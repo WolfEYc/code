@@ -1,6 +1,7 @@
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /*
@@ -15,6 +16,9 @@ public class Graduation
     public volatile static Thread coordinator;
     public volatile static AtomicInteger totalDiplomaDistributed = new AtomicInteger();
     public volatile static AtomicInteger occupiedSeats = new AtomicInteger();
+    public static Semaphore studentsArriving = new Semaphore(1);
+    public static Semaphore studentsdoneArriving = new Semaphore(0);
+
 
     public static int numStudent ;
     public static int rowCapacity;
@@ -27,6 +31,7 @@ public class Graduation
     	  numStudent = 13;
     	  rowCapacity = 4;
     	  numRows = 11;
+
     	  
     	  students = new Thread[numStudent];
           for (int i = 0; i <numStudent; i++) {
