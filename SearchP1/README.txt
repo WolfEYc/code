@@ -1,1 +1,0 @@
-Run the code in g++ compiler (thats what I used) and it will print out the results in the assignments format. Enjoy!
